@@ -46,12 +46,12 @@ def apply(C, V, prior, condprob, d='test'):
     score = {}
 
     for c in C:
-        #score[c] = log(prior[c], 10)
-        score[c] = prior[c]
+        score[c] = log(prior[c], 10)
+        #score[c] = prior[c]
         for t in W:
             #print c, t, condprob[t][c]
-            #score[c] += log(condprob[t][c], 10)
-            score[c] += condprob[t][c]
+            score[c] += log(condprob[t][c], 10)
+            #score[c] *= condprob[t][c]
 
 
     return score

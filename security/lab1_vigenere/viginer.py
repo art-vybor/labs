@@ -39,12 +39,6 @@ def decode(k_len, text):
         if i == len(keyword): i = 0
 
     print decoded_text
-        #for i in range(len(block_freq)):
-            #print block_freq[i][0], freq[i][0]
-            #print ord(block_freq[i][0])-ord(freq[i][0]), block_freq[i][1]-freq[i][1]
-        
-
-
         
 def factors(n):
     return set(reduce(list.__add__, 
