@@ -1,0 +1,1 @@
+gcc c.c  -std=c99 -lcrypto
