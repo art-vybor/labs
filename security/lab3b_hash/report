@@ -1,0 +1,35 @@
+AES - http://testprotect.com/appendix/AEScalc
+XOR - python
+Ниже + это побитовый xor.
+----------------------------------
+Теория:
+    Нужно найти коллизию:
+        H(x, y) = H(x', y')
+    Раскроем H:
+        E(x, x) + E(x, y + x) = E(x', x') + E(x', y' + x')
+    Фиксируем x, y, x'.
+        C = E(x', y' + x') = E(x, y + x) + E(x, x) + E(x', x')
+        y' + x' = D(x', C) 
+        y' = D(x', C) + x'
+Практика:
+    Пусть
+        x = 0102030405060708090A0B0C0D0E0F00
+        y = DEADBEAFDEADBEAFDEADBEAFDEADBEAF
+        x'= 102030405060708090A0B0C0D0E0F000
+    Получаем:
+        E(x, x) = 06f6beb2f8f4290c1b1955b8ed829ba9
+        E(x',x') = a56c18e530edae6edd28fc8609155e10                   
+        x + y = dfafbdabdbabb9a7d7a7b5a3d3a3b1af
+        E(x, y + x) = b32d7d1655ae5405f90d5e664e0af696
+        C = E(x, y + x) + E(x, x) + E(x', x') = 10b7db419db7d3673f3cf758aa9d332f
+        D(x', C) = 2b47787ec8876b45d42ec80fa00490f1
+        y' = D(x', C) + x' = 3b67483e98e71bc5448e78cf70e460f1
+    Проверка:
+        H(x, y) = E(x, x) + E(x, y + x) = b5dbc3a4ad5a7d09e2140bdea3886d3f
+        H(x', y') = E(x', x') + E(x', y' + x') = b5dbc3a4ad5a7d09e2140bdea3886d3f
+            y' + x' = 2b47787ec8876b45d42ec80fa00490f1
+            E(x', y' + x') = 10b7db419db7d3673f3cf758aa9d332f
+    Ответ:
+        (x, y)   0102030405060708090A0B0C0D0E0F00 DEADBEAFDEADBEAFDEADBEAFDEADBEAF
+        (x', y') 102030405060708090A0B0C0D0E0F000 3b67483e98e71bc5448e78cf70e460f1
+

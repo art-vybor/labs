@@ -1,0 +1,215 @@
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+
+\begin{enumerate}
+    \item {\bf Условие:} Найти все подгруппы группы $Z_{33}^+$.
+
+        {\bf Решение:} По теореме Лагранжа порядок любой подгруппы конечной группы является делителем порядка группы. Так что подгруппами группы $Z_{33}^+$ будут группы $\{0\}, \{0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30\}, \{0,11,22\}, Z_{33}^+$.
+
+    \item {\bf Условие.:} Перечислить все элементы группы $Z_n^*$. Вычислить их порядок. Какие из них являются генераторами группы?
+    \begin{enumerate}
+        \item $n=10$.
+        \item $n=11$.
+    \end{enumerate}
+
+        {\bf Решение:} 
+        \begin{enumerate}
+            \item $Z_{10}^* = \{1,3,7,9\}=<3>=<7>$.
+
+            \begin{tabular}{ c|c c c c }
+                g - элемент & 1 & 3 & 7 & 9 \\
+                \hline
+                ord g       & 1 & 4 & 4 & 2 \\  
+            \end{tabular}
+
+            \item $Z_{11}^* = \{1,2,3,4,5,6,7,8,9,10\}=<2>=<6>=<7>=<8>$.
+
+            \begin{tabular}{ c|c c c c c c c c c c}
+                g - элемент & 1 & 2  & 3 & 4 & 5 & 6  & 7  & 8  & 9 & 10\\
+                \hline
+                ord g       & 1 & 10 & 5 & 5 & 5 & 10 & 10 & 10 & 5 & 2\\  
+            \end{tabular}
+        \end{enumerate}
+    \item {\bf Условие:} Используя теорему Лагранжа, найти $3^{452} mod~11$.
+
+        {\bf Решение:} $3^{452} mod~11 = 3^{41*11+1} mod~11 = 3$
+
+
+    \item {\bf Условие:} В кольце $F_2[x]$ вычислить $x^4 + x + 1 ~mod~ x^3 + x + 1$
+
+        {\bf Решение:}
+
+        $
+        \arraycolsep=0.05em
+        \begin{array}{rrrr|l}
+            x^4 & +~x   & +~1 & & ~x^3+x+1\\
+            \cline{5-5}
+            x^4 & +~x^2 & +~x & & ~x\\
+            \cline{1-3}
+                & x^2   & +~1\\            
+        \end{array}
+        $
+
+        $x^4 + x + 1 ~mod~ x^3 + x + 1 = x^2 + 1$
+
+
+    \item {\bf Условие:} В кольце $F_2[x]$ вычислить $(x^4 + x)(x^2+x+1) ~mod~ x^4 +x+1$
+
+        {\bf Решение:}
+
+        $(x^4 + x)(x^2+x+1) = x^6+x^5+x^4+x^3+x^2+x$
+
+        $
+        \arraycolsep=0.05em
+        \begin{array}{rrrrrrr|l}
+            x^6 & +~x^5 & +~x^4 &+~x^3 &+~x^2 & +~x & & ~x^4+x+1\\
+            \cline{8-8}
+            x^6 & +~x^3 & +~x^2 &      &      &     & & ~x^2+x+1\\
+            \cline{1-4}
+                & x^5   & +~x^4 & +~x\\
+                & x^5   & +~x^2 & +~x\\
+            \cline{2-4}
+                &       & ~x^4  & +~x^2\\
+                &       & ~x^4  & +~x & +~1\\
+            \cline{3-5}
+                &       &       & ~x^2  & +~x & +~1\\
+        \end{array}
+        $
+
+        $(x^4 + x)(x^2+x+1) ~mod~ x^4+x+1 = x^2+x+1$
+
+    \item {\bf Условие:} Является ли каждое из этих множеств полем или кольцом с операциями сложения, умножения по соответствующему модулю?
+    \begin{enumerate}
+        \item $Z_{31}$.
+        \item $Z_{28}$.
+    \end{enumerate}
+
+        {\bf Решение:}
+
+        \begin{enumerate}
+            \item $Z_{31}$~---~порядок 31 это простое число, следовательно для любого элемента по умножению будет существовать обратный. По сложению абелева группа. Следовательно это поле.
+            \item $Z_{28}$~---~рассуждаем аналогично случаю $Z_{31}$, только 28 это составное число. Следовательно это кольцо.
+        \end{enumerate}
+
+    \item {\bf Условие:}  Являются ли эти расширение поля кольцом или полем? 
+    \begin{enumerate}
+        \item $GF(3)/ < x^2+2 >$.
+        \item $GF(2)/ < (x^3+x+1)^2 >$.
+        \item $GF(2)/ < x^3+x+1 >$.
+    \end{enumerate}
+
+        {\bf Решение:}
+
+        \begin{enumerate}
+            \item $GF(3)/ < x^2+2 >$~---~$x^2+2=(x+2)(x+1)$. В множестве есть делители нуля, следовательно оно не является полем, то есть это кольцо.
+            \item $GF(2)/ < (x^3+x+1)^2 >$~---~$(x^3+x+1)^2=(x^3+x+1)(x^3+x+1)$. Следовательно не может быть полем, то есть это кольцо.
+            \item $GF(2)/ < x^3+x+1 >$~---~$x^3+x+1$ в $GF(2)$ неприводим. Следовательно это поле.
+        \end{enumerate}
+    \item {\bf Условие:}  Пусть в группе $G \colon \forall a \in G~a*a=e$. Доказать, что группа $G$ абелева. Указание: использовать тот факт, что $a * e * a = e$.
+
+        {\bf Решение:} Для того, чтобы доказать, что группа $G$ абелева, необходимо показать, что она комутативна, то есть $\forall a,b \in G~ a*b=b*a$.
+
+        $a*e*a = a*(b*e*b)*a = (a*b) * e * (b*a) = e \Rightarrow (a*b)*(b*a)*(b*a)=(b*a) \Rightarrow a*b=b*a$, ч.т.д.
+
+
+    \item {\bf Условие:} Дан примитивный над $GF(2)$ полином $p(x) = x^3 + x + 1$. Пусть $\alpha$~---~примитивный элемент поля $GF(2^3) = F_2[x]/ < p(x) >$, равный полиному $x$. Тогда $\alpha^2=x^2$; $\alpha^3 = x^3 \equiv c_2x^2+c_1x+c_0 ~mod~ p(x), c_i \in GF(2)$; и т.д. Найти $n \colon \alpha^5+\alpha^3=\alpha^n$.
+
+        {\bf Решение:}\\
+        $\alpha^3 = x^3 ~mod~ x^3+x+1 = x+1$ \\
+        $\alpha^5 = x^5 ~mod~ x^3+x+1 = x^2+x+1$ \\
+        $\alpha^3 + \alpha^5 = x^2 \Rightarrow n=2$
+
+    \item {\bf Условие:} $g(x) = x^8 + x^4 + x^3 + x^2 + 1$~---~минимальный полином над $GF(2)$. \\
+    Пусть один байт (восемь бит $b_7...b_0$)~---~это коэффициенты полинома $b_7x_7 + ... + b_0$ из $GF(256) = GF(2)[x] / < g(x) > $. \\
+    Числа записаны в кодировке big endian, например $32 \leftrightarrow 00100000$. \\
+    Преобразовать числа в полиномы, выполнить операции в поле $GF(256)$, получить полином~---~элемент поля $GF(256)$ и преобразовать его в число. Это число является ответом задачи. Использовать тот факт, что $x^8 ≡ x^4 + x^3 + x^2 + 1 ~mod~ g(x)$.\\
+    Найти $128*6 + 29$.
+
+        {\bf Решение:}\\
+        $128_{10} = 10000000_2 = x^8 ~mod~ x^8 + x^4 + x^3 + x^2 + 1 = x^4 + x^3 + x^2 + 1$\\
+        $6_{10} = 110_2 = x^2+x$\\
+        $29_{10} = 11101_2 = x^4+x^3+x^2+1$\\
+        $128*6+29=(x^4+x^3+x^2+1) * (x^2+x) + x^4+x^3+x^2+1 = x^6+x^5+x^4+x^2+x^5+x^4+x^3+x+x^4+x^3+x^2+1 = x^6+x^4+x+1 = 1010011_2 = 83_{10}$ 
+
+\end{enumerate}
+
+\end{document}

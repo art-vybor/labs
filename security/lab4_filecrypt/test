@@ -1,0 +1,51 @@
+function test {
+    echo $1
+    if [ "$#" -ne 1 ]
+    then
+        printf "    "
+    fi
+    
+    eval $1
+}
+
+echo '-------------------------'
+echo '-----test user add-------'
+echo '-------------------------'
+test 'python filecrypt.py -a -u test -p Aa1abcde' 1
+test 'python filecrypt.py -a -u test -p sadasdas' 1
+test 'python filecrypt.py -a -u test1 -p ab' 1
+
+echo '-------------------------'
+echo '-----test user remove----'
+echo '-------------------------'
+test 'python filecrypt.py -r -u test -p sadasdas' 1
+test 'python filecrypt.py -r -u test1 -p sadasdas' 1
+test 'python filecrypt.py -r -u test -p Aa1abcde' 1
+
+echo '-------------------------'
+echo '----test encrypt files---'
+echo '-------------------------'
+test 'python filecrypt.py -a -u test -p Aa1abcde' 1
+test 'echo abracadabra >> file1'
+test 'cp file1 file1_old'
+test 'cp file1 file2'
+test 'python filecrypt.py -e -u test -p Aa1abcde file1 file2 file3' 1
+test 'python filecrypt.py -e -u test -p Aa1abcde file1 file2' 1
+test 'cat file1 | wc -c' 1
+test 'cat file1_old | wc -c' 1
+test 'cmp file1 file2' 1
+
+echo '-------------------------'
+echo '----test decrypt files---'
+echo '-------------------------'
+test 'python filecrypt.py -d -u test -p Aa1abcde file1 file2 file3' 1
+test 'python filecrypt.py -d -u test -p Aa1abcde file1 file2' 1
+test 'cmp file1 file1_old'
+test 'python filecrypt.py -d -u test -p Aa1abcde file1_old file2' 1
+
+
+echo '-------------------------'
+echo '-----clear tmp data-----'
+echo '-------------------------'
+test 'rm file1 file1_old file2'
+test 'python filecrypt.py -r -u test -p Aa1abcde' 1

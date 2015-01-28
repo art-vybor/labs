@@ -1,0 +1,37 @@
+usage: filecrypt.py [-h] (-e | -d | -a | -r) -u username -p password
+                    [file [file ...]]
+
+Filecrypt command line interface.
+
+positional arguments:
+  file         files for encrypt or decrypt
+
+optional arguments:
+  -h, --help   show this help message and exit
+  -e           encrypt files
+  -d           decrypt files
+  -a           add user
+  -r           remove user
+  -u username  username
+  -p password  password with more than 8 chars, at least 1 char of each type:
+               [A-Z], [a-z], [0-9]
+
+
+You can test this program by execute in shell: ./test
+
+Программа написана на языке python. Используется библиотека pycrypto, а именно, модули: HMAC, AES, Counter. Для хранения данных на диске используется python dict с сериализатором marshal. Для обработки аргументов командной строки используется argparse.
+
+Пароль пользователя хэшируется на основе sault, уникальной для кажого пользователя - получаем "медленную хэш-функцию" уникальную для каждого пользователя.
+Пользователь хранится в виде отображения username -> sault, password_hash.
+
+Для шифрования используется алгоритм AES в режиме CTR - это позволяет сохранять размер файла неизменным.
+Cчётик зависит от уникального для каждого файла nonce - это позволяет шифру быть семантически стойким к атаке с выбором открытого текста.
+Ключ (key) зависит от sault, username и password - это запрещает пользователям расшифровывать файлы друг друга.
+Для проверки изменения содержимого зашифрованного файла использует хэш (hmac) от key и всего зашифрованного файла.
+Файл хранится в виде отображения hmac -> nonce. При расшифровке ищется hmac, совпадающий с полученным hmac от этого файла.
+Описанная выше архитектура обеспечивает уникальность шифрования любого файла.
+
+При реализации обеспечено совпадение всем условиям лабораторной, кроме одного: обработка ошибки командной строки, так как я использую стандартный argparse, содержащий свою реализацию обработки 
+	
+
+
