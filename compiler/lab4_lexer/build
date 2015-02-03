@@ -1,0 +1,2 @@
+javac Lexer.java lex.java Position.java  Token.java
+java lex
