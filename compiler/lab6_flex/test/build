@@ -1,0 +1,2 @@
+lex ex.l
+cc lex.yy.c -lfl
