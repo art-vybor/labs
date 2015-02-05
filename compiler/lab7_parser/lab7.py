@@ -131,6 +131,12 @@ class Parser():
         self.TABLE = {}
 
         self.init_syntax_by_tokens()
+        for x in self.P:
+            for xy in self.P[x]:
+                for y in xy:
+                    if not self.is_terminal(y) and not y in self.P and y != '$EPS':
+                        self.errors.append('ERROR: %s is undeclared NTERM' % y)
+
         if self.S == '':
             self.errors.append('ERROR: must be at least one axiom')
         self.N += self.S
@@ -156,7 +162,7 @@ class Parser():
                                     self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, NTERM or TERM expected' % self.tokens[i].tag))
                                     break
                             i+=1
-                            right.append(right_elem)                            
+                            right.append(right_elem)
                         self.P[left] = right
                     else:
                         self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, '= expected'))
@@ -180,17 +186,24 @@ class Parser():
                 i+=1
                 while self.tokens[i].tag != 'NLINE':
                     if self.tokens[i].tag == 'NTERM':
-                        self.N.append(self.tokens[i].get_text())
+                        text = self.tokens[i].get_text()
+                        if text not in self.N:
+                            self.N.append(text)
+                        else:
+                            self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'NTERM %s already exists' % text))    
                     else:
                         self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, NTERM expected' % self.tokens[i].tag))
-                        break
                     i+=1
                 i+=1
             elif self.tokens[i].get_text() == '$TERM':
                 i+=1
                 while self.tokens[i].tag != 'NLINE':
                     if self.tokens[i].tag == 'TERM':
-                        self.T.append(self.tokens[i].get_text())
+                        text = self.tokens[i].get_text()
+                        if text not in self.T:
+                            self.T.append(text)
+                        else:
+                            self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'TERM %s already exists' % text))    
                     else:
                         self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, TERM expected' % self.tokens[i].tag))
                         break
@@ -414,6 +427,9 @@ class Predictor:
 def main():
     import sys
     gram = open('gram', 'r').read()
+    text = open('gram', 'r').read()
+    # gram = open('gram1', 'r').read()
+    # text = open('gram1t', 'r').read()
     lexer = Lexer(gram)
     if lexer.errors:
         for error in lexer.errors:
@@ -451,7 +467,7 @@ def main():
     parser.init_TABLE()
     parser.print_table()
 
-    predictor = Predictor(gram, parser.T, parser.N, parser.S, parser.TABLE)
+    predictor = Predictor(text, parser.T, parser.N, parser.S, parser.TABLE)
     if predictor.errors:
         for error in predictor.errors:
             print error
