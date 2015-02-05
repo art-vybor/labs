@@ -1,0 +1,71 @@
+$AXIOM S
+$NTERM AXIOMDECLARE NTERMDECLARE TERMDECLARE NTERMLIST TERMLIST RULELIST RULE RIGHTLIST RIGHT RIGHTTERMLIST RTLEND RIGHTTERM NTERM TERM LETTERLIST SPACELIST SPACE NEWLINE CHAR LETTER NTERMLISTEND TERMLISTEND
+$TERM " " "\n" "\"" "$" "="  "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" "'" "+" "*" "(" ")" "n"
+$RULE S             = AXIOMDECLARE NTERMDECLARE TERMDECLARE RULE RULELIST
+$RULE AXIOMDECLARE  = "$" "A" "X" "I" "O" "M" SPACELIST NTERM NEWLINE
+$RULE NTERMDECLARE  = "$" "N" "T" "E" "R" "M" SPACELIST NTERMLIST NEWLINE
+$RULE TERMDECLARE   = "$" "T" "E" "R" "M" SPACELIST TERMLIST NEWLINE
+$RULE NTERMLIST     = NTERM NTERMLISTEND
+$RULE NTERMLISTEND  = SPACE SPACELIST NTERMLIST
+                      $EPS
+$RULE TERMLIST      = TERM TERMLISTEND
+$RULE TERMLISTEND   = SPACE SPACELIST TERMLIST
+                      $EPS
+$RULE RULELIST      = RULE RULELIST
+                      $EPS
+$RULE RULE          = "$" "R" "U" "L" "E" SPACE SPACELIST NTERM SPACELIST "=" RIGHTLIST
+$RULE RIGHTLIST     = SPACE SPACELIST RIGHT RIGHTLIST
+                      $EPS
+$RULE RIGHT         = RIGHTTERMLIST NEWLINE
+                      "$" "E" "P" "S" NEWLINE
+$RULE RIGHTTERMLIST = RIGHTTERM RTLEND
+$RULE RTLEND        = SPACE SPACELIST RIGHTTERMLIST
+                      $EPS
+$RULE RIGHTTERM     = NTERM
+                      TERM
+$RULE NTERM         = LETTER LETTERLIST
+$RULE TERM          = "\"" CHAR "\""
+$RULE LETTERLIST    = LETTER LETTERLIST
+                      $EPS
+$RULE SPACELIST     = SPACE SPACELIST
+                      $EPS
+$RULE SPACE         = " "
+$RULE NEWLINE       = "\n"
+$RULE CHAR          = LETTER
+                      " "
+                      "\""
+                      "\n"
+                      "$"
+                      "="
+                      "+"
+                      "*"
+                      "("
+                      ")"
+                      "n"
+$RULE LETTER        = "'"
+                      "A"
+                      "B"
+                      "C"
+                      "D"
+                      "E"
+                      "F"
+                      "G"
+                      "H"
+                      "I"
+                      "J"
+                      "K"
+                      "L"
+                      "M"
+                      "N"
+                      "O"
+                      "P"
+                      "Q"
+                      "R"
+                      "S"
+                      "T"
+                      "U"
+                      "V"
+                      "W"
+                      "X"
+                      "Y"
+                      "Z"
