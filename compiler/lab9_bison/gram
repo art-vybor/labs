@@ -1,0 +1,11 @@
+CLASS ::= 'class' NAME '{' (FIELD, METHOD)* '}'
+FIELD ::= ACCESS_TERM? 'static'? 'final'? DNAME = VALUE ;
+METHOD ::= ACCESS_TERM 'static'? DNAME '(' ((DNAME ',')* DNAME)? ')' '{' '}'
+ACCESS_TERM ::= 'public' | 'private'
+DNAME ::= NAME NAME
+NAME ::= CHAR (DIGIT|CHAR)*
+VALUE ::= DIGIT+ | '"' (DIGIT | CHAR)* '"'4
+CHAR ::= a-zA-Z
+DIGIT ::= 0-9
+
+

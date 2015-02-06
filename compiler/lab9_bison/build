@@ -1,0 +1,6 @@
+yacc -d java.y 
+#-t
+lex java.l
+cc lex.yy.c y.tab.c -o java_formatter
+
+./java_formatter < test.java

@@ -1,0 +1,297 @@
+Terminals unused in grammar
+
+   COMMA
+
+
+Grammar
+
+    0 $accept: class $end
+
+    1 class: IDENT IDENT LBRACE rows RBRACE
+    2      | "class"
+
+    3 rows: row
+    4     | rows SEMICOLON row
+
+    5 row: IDENT IDENT IDENT row_suffix
+
+    6 row_suffix: EQUAL value
+    7           | LBRACKET args RBRACKET LBRACE RBRACE
+
+    8 value: STRING
+    9      | NUMBER
+
+   10 args: arg
+   11     | args SEMICOLON arg
+
+   12 arg: IDENT IDENT
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+LBRACE (258) 1 7
+RBRACE (259) 1 7
+LBRACKET (260) 7
+RBRACKET (261) 7
+SEMICOLON (262) 4 11
+COMMA (263)
+EQUAL (264) 6
+STRING (265) 8
+NUMBER (266) 9
+IDENT (267) 1 5 12
+"class" (268) 2
+
+
+Nonterminals, with rules where they appear
+
+$accept (14)
+    on left: 0
+class (15)
+    on left: 1 2, on right: 0
+rows (16)
+    on left: 3 4, on right: 1 4
+row (17)
+    on left: 5, on right: 3 4
+row_suffix (18)
+    on left: 6 7, on right: 5
+value (19)
+    on left: 8 9, on right: 6
+args (20)
+    on left: 10 11, on right: 7 11
+arg (21)
+    on left: 12, on right: 10 11
+
+
+State 0
+
+    0 $accept: . class $end
+
+    IDENT    shift, and go to state 1
+    "class"  shift, and go to state 2
+
+    class  go to state 3
+
+
+State 1
+
+    1 class: IDENT . IDENT LBRACE rows RBRACE
+
+    IDENT  shift, and go to state 4
+
+
+State 2
+
+    2 class: "class" .
+
+    $default  reduce using rule 2 (class)
+
+
+State 3
+
+    0 $accept: class . $end
+
+    $end  shift, and go to state 5
+
+
+State 4
+
+    1 class: IDENT IDENT . LBRACE rows RBRACE
+
+    LBRACE  shift, and go to state 6
+
+
+State 5
+
+    0 $accept: class $end .
+
+    $default  accept
+
+
+State 6
+
+    1 class: IDENT IDENT LBRACE . rows RBRACE
+
+    IDENT  shift, and go to state 7
+
+    rows  go to state 8
+    row   go to state 9
+
+
+State 7
+
+    5 row: IDENT . IDENT IDENT row_suffix
+
+    IDENT  shift, and go to state 10
+
+
+State 8
+
+    1 class: IDENT IDENT LBRACE rows . RBRACE
+    4 rows: rows . SEMICOLON row
+
+    RBRACE     shift, and go to state 11
+    SEMICOLON  shift, and go to state 12
+
+
+State 9
+
+    3 rows: row .
+
+    $default  reduce using rule 3 (rows)
+
+
+State 10
+
+    5 row: IDENT IDENT . IDENT row_suffix
+
+    IDENT  shift, and go to state 13
+
+
+State 11
+
+    1 class: IDENT IDENT LBRACE rows RBRACE .
+
+    $default  reduce using rule 1 (class)
+
+
+State 12
+
+    4 rows: rows SEMICOLON . row
+
+    IDENT  shift, and go to state 7
+
+    row  go to state 14
+
+
+State 13
+
+    5 row: IDENT IDENT IDENT . row_suffix
+
+    LBRACKET  shift, and go to state 15
+    EQUAL     shift, and go to state 16
+
+    row_suffix  go to state 17
+
+
+State 14
+
+    4 rows: rows SEMICOLON row .
+
+    $default  reduce using rule 4 (rows)
+
+
+State 15
+
+    7 row_suffix: LBRACKET . args RBRACKET LBRACE RBRACE
+
+    IDENT  shift, and go to state 18
+
+    args  go to state 19
+    arg   go to state 20
+
+
+State 16
+
+    6 row_suffix: EQUAL . value
+
+    STRING  shift, and go to state 21
+    NUMBER  shift, and go to state 22
+
+    value  go to state 23
+
+
+State 17
+
+    5 row: IDENT IDENT IDENT row_suffix .
+
+    $default  reduce using rule 5 (row)
+
+
+State 18
+
+   12 arg: IDENT . IDENT
+
+    IDENT  shift, and go to state 24
+
+
+State 19
+
+    7 row_suffix: LBRACKET args . RBRACKET LBRACE RBRACE
+   11 args: args . SEMICOLON arg
+
+    RBRACKET   shift, and go to state 25
+    SEMICOLON  shift, and go to state 26
+
+
+State 20
+
+   10 args: arg .
+
+    $default  reduce using rule 10 (args)
+
+
+State 21
+
+    8 value: STRING .
+
+    $default  reduce using rule 8 (value)
+
+
+State 22
+
+    9 value: NUMBER .
+
+    $default  reduce using rule 9 (value)
+
+
+State 23
+
+    6 row_suffix: EQUAL value .
+
+    $default  reduce using rule 6 (row_suffix)
+
+
+State 24
+
+   12 arg: IDENT IDENT .
+
+    $default  reduce using rule 12 (arg)
+
+
+State 25
+
+    7 row_suffix: LBRACKET args RBRACKET . LBRACE RBRACE
+
+    LBRACE  shift, and go to state 27
+
+
+State 26
+
+   11 args: args SEMICOLON . arg
+
+    IDENT  shift, and go to state 18
+
+    arg  go to state 28
+
+
+State 27
+
+    7 row_suffix: LBRACKET args RBRACKET LBRACE . RBRACE
+
+    RBRACE  shift, and go to state 29
+
+
+State 28
+
+   11 args: args SEMICOLON arg .
+
+    $default  reduce using rule 11 (args)
+
+
+State 29
+
+    7 row_suffix: LBRACKET args RBRACKET LBRACE RBRACE .
+
+    $default  reduce using rule 7 (row_suffix)
