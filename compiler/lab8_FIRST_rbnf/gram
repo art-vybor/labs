@@ -1,0 +1,6 @@
+$NTERM T F
+$TERM "+" "-" "*" "/"
+$TERM "(" ")" "n"
+$RULE E = "b" T { ("+" | "-") T }
+$RULE T = "a" | F { ("*" | "/") F }
+$RULE F = "n" | "-" F | "(" E ")" 
