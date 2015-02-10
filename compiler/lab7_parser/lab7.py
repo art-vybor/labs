@@ -4,8 +4,6 @@ import re
 EOF_char = chr(1)
 
 class Position:
-    
-
     def __init__(self, text):
         self.line = 1
         self.pos = 1
@@ -355,7 +353,9 @@ class Predictor:
         self.errors = []
         self.P = {}
         self.i = 0
+        self.pos = Position(text)
         self.predict_P()
+
         for x in self.P:
             new_p_x = []
             for r in self.P[x]:
@@ -374,6 +374,7 @@ class Predictor:
         char = self.text[self.i]
         if char == '\\':
             self.i+=1
+            self.pos.next()
             char += self.text[self.i]
         elif char == '\n':
             char = '\\n'
@@ -383,24 +384,39 @@ class Predictor:
             return char
         return '"' + char + '"'
 
-    def predict_P(self):
+    def predict_P(self, print_tree=True):
+
+        tab = 0
+        tab_count_S = []
         X = ''
         a = self.cover_char()
         while X != EOF_char: 
             X = self.M[0]
             
+            while tab_count_S and tab_count_S[0] == 0:
+                tab -=4
+                tab_count_S = tab_count_S[1:]
+            if tab_count_S:
+                tab_count_S[0]-=1
+                
             #print 'X=%s, \ta(%d)=%s(%s), \tM=%s' % (X,self.i,a,'self.text[self.i]',self.M)
             if X in self.T:                
                 if X == a:
                     self.M = self.M[1:]
+                    if print_tree and a != EOF_char:
+                        print tab*' ' + X
                     self.i += 1
+                    self.pos.next()
                     a = self.cover_char()
                 else:
-                    self.errors.append('ERROR1: %d' % self.i)
+                    self.errors.append('ERROR in non terminal at %d' % self.pos)
                     break
             elif X in self.N:
-                d = list(self.TABLE[X][a])[0]
-
+                if a in self.TABLE[X]:
+                    d = list(self.TABLE[X][a])[0]
+                else:
+                    self.errors.append('ERROR in terminal at %s' % self.pos)
+                    break
                 if d != 'error':
                     self.M = self.M[1:]
                     Y = d.split(' ')
@@ -410,26 +426,31 @@ class Predictor:
                         Y[k] = '\" \"'
 
                     self.M = Y + self.M
+                    tab_count_S = [len(Y)] + tab_count_S
+                    Y = ' '.join(Y)
+                    if print_tree:
+                        print tab*' ' + X
+                        tab += 4
+
                     if X in self.P:
-                        self.P[X].add(' '.join(Y))
+                        self.P[X].add(Y)
                     else:
-                        self.P[X] = set([' '.join(Y)])
+                        self.P[X] = set([Y])
                 else:
-                    self.errors.append('ERROR2: %d' % self.i)
+                    self.errors.append('ERROR in terminal at %s' % self.pos)
                     break
             elif X == '$EPS':
+                if print_tree:
+                    print tab*' ' + X
                 self.M = self.M[1:]
                 #print 'X=%s, a=%s, M=%s' % (X,a,self.M)
 
-
-
-
 def main():
     import sys
-    gram = open('gram', 'r').read()
-    text = open('gram', 'r').read()
-    # gram = open('gram1', 'r').read()
-    # text = open('gram1t', 'r').read()
+    #gram = open('gram', 'r').read()
+    #text = open('gram', 'r').read()
+    gram = open('gram1', 'r').read()
+    text = open('gram1t', 'r').read()
     lexer = Lexer(gram)
     if lexer.errors:
         for error in lexer.errors:
@@ -497,9 +518,9 @@ def main():
     new_parser.init_TABLE()
     new_parser.print_table('table1')
 
-    print 'cmp table table1:'
-    import subprocess
-    subprocess.call('cmp table table1', shell=True)
+    #print 'cmp table table1:'
+    #import subprocess
+    #subprocess.call('cmp table table1', shell=True)
 
 
 
