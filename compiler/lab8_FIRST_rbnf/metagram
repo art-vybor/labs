@@ -1,0 +1,8 @@
+Gram ::= (NtermRow | TermRow | RuleRow)*
+NtermRow ::= '$NTERM' Nterm+
+TermRow ::= '$TERM' Term+
+RuleRow ::= '$RULE' Nterm '=' Rule
+Rule ::= RuleBase ('|' RuleBase)*
+RuleBase ::= (Nterm | Term | '{' Rule '}' | '(' Rule ')')+
+Term ::= '"' ASCII_SYMBOL '"'
+Nterm ::= 'a' | 'b' | ... | 'z' | 'A' | ... | 'Z'

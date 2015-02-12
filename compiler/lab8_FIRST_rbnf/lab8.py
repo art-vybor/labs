@@ -1,5 +1,6 @@
 from copy import copy
 import re
+import sys
 
 EOF_char = chr(1)
 
@@ -60,7 +61,7 @@ class Position:
         return '(%s, %s)' % (self.line, self.pos)
 
 class Token:
-    tags = {'DECL', 'NTERM', 'TERM', 'NLINE', 'EQUAL', 'OR', 'LBRCKT', 'RBRCKT','LBRACE', 'RBRACE'}
+    tags = {'NTERM', 'TERM', 'TEXT'}
 
     def __init__(self, tag, start, end, text=None):
         self.start = start
@@ -95,96 +96,160 @@ class Lexer:
     def next_token(self):
         start, end, word = self.pos.word() 
 
-        if word == EOF_char: return None
-
-        if word == '\n':
-            return Token('NLINE', start, end)
-        elif word == '=':
-            return Token('EQUAL', start, end)
-        elif word == '(':
-            return Token('LBRCKT', start, end)
-        elif word == ')':
-            return Token('RBRCKT', start, end)
-        elif word == '{':
-            return Token('LBRACE', start, end)
-        elif word == '}':
-            return Token('RBRACE', start, end)
-        elif word == '|':
-            return Token('OR', start, end)
-        elif word == '$NTERM' or word == '$TERM' or word == '$RULE':
-            return Token('DECL', start, end)
+        if word in ['\n', EOF_char]:
+            return None
+        elif word in ['=', '(', ')', '{', '}', '|', '$NTERM', '$TERM', '$RULE']:
+            return Token('TEXT', start, end)
         elif word[0] == '\"':
             if word[2] == '\"':
                 return Token('TERM', start, end)
             else:
                 self.errors.append(Token('ERROR', start, end, 'unexpected end of TERM'))
-        else:
+        elif word.isalpha() and len(word) == 1:
             return Token('NTERM', start, end)
+        else:
+            self.errors.append(Token('ERROR', start, end, 'incorrect token'))
+
+class Rule:
+    def __init__(self, type, data):
+        self.type = type
+        self.data = data
+
+    def print_it(self, rule=None, offset=0):
+        if rule == None: rule = self
+        print ' '*offset + rule.type
+
+        if rule.type == 'TERM' or rule.type == 'NTERM':
+            print ' '*(offset+4), rule.data
+        elif rule.type == 'CONCAT' or rule.type =='OR':
+            for r in rule.data:
+                self.print_it(r, offset+4)
+        else:
+            self.print_it(rule.data, offset+4)
 
 class Parser():
     def __init__(self, tokens):
         self.tokens = tokens
+        self.index = 0
         self.S = 'E'
         self.N = []
         self.T = []
         self.P = {} #rulles
-        self.errors = []
         self.FIRST = {}
+        self.parseGram()
 
-        self.init_syntax_by_tokens()
-
-    def init_syntax_by_tokens(self):
-        i = 0
-        while i < len(self.tokens):
-            if self.tokens[i].get_text() == '$RULE':
-                i+=1
-                if self.tokens[i].tag == 'NTERM':
-                    left = self.tokens[i].get_text()
-                    i+=1
-                    if self.tokens[i].get_text() == '=':
-                        i+=1
-                        right = []
-                        while i < len(self.tokens) and self.tokens[i].tag != 'NLINE':
-                            right.append(self.tokens[i])
-                            i+=1
-                        self.P[left] = Rule(right)
-                        i+=1
-                    else:
-                        self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, '= expected'))
-                        continue
-                else:
-                    self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, NTERM expected' % self.tokens[i].tag))
-                    continue
-            elif self.tokens[i].get_text() == '$NTERM':
-                i+=1
-                while self.tokens[i].tag != 'NLINE':
-                    if self.tokens[i].tag == 'NTERM':
-                        text = self.tokens[i].get_text()
-                        if text not in self.N:
-                            self.N.append(text)
-                        else:
-                            self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'NTERM %s already declared' % text))    
-                    else:
-                        self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, NTERM expected' % self.tokens[i].tag))
-                    i+=1
-                i+=1
-            elif self.tokens[i].get_text() == '$TERM':
-                i+=1
-                while self.tokens[i].tag != 'NLINE':
-                    if self.tokens[i].tag == 'TERM':
-                        text = self.tokens[i].get_text()
-                        if text not in self.T:
-                            self.T.append(text)
-                        else:
-                            self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'TERM %s already declared' % text))    
-                    else:
-                        self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s, TERM expected' % self.tokens[i].tag))
-                    i+=1
-                i+=1
+    # Gram ::= (NtermRow | TermRow | RuleRow)*
+    def parseGram(self):
+        while not self.EOF():
+            if self.token().get_text() == '$NTERM':
+                self.parseNtermRow()
+            elif self.token().get_text() == '$TERM':
+                self.parseTermRow()
+            elif self.token().get_text() == '$RULE':
+                self.parseRuleRow()
             else:
-                i+=1
-                self.errors.append(Token('ERROR', self.tokens[i].start, self.tokens[i].end, 'unexpected %s' % self.tokens[i].tag))
-                continue
+                self.generate_error('incorrect row at %s, NtermTow, TermRow or RuleRow expected' % self.token().start)
+
+    #NtermRow ::= '$NTERM' Nterm+
+    def parseNtermRow(self):
+        self.parseString('$NTERM')        
+        self.N.append(self.parseNterm())
+
+        while self.token().tag == 'NTERM':
+            self.N.append(self.parseNterm())
+    
+    #TermRow ::= '$TERM' Term+
+    def parseTermRow(self):
+        self.parseString('$TERM')
+        self.T.append(self.parseTerm())
+
+        while self.token().tag == 'TERM':
+            self.T.append(self.parseTerm())
+
+    #RuleRow ::= '$RULE' Nterm '=' Rule
+    def parseRuleRow(self):
+        self.parseString('$RULE')        
+        nterm = self.parseNterm()
+        self.parseString('=')        
+        rule = self.parseRule()
+
+        self.P[nterm] = rule
+
+    #Rule ::= RuleBase ('|' RuleBase)*
+    def parseRule(self):
+        rules = [self.parseRuleBase()]
+
+        while self.token().get_text() == '|':
+            self.parseString('|')
+            rules.append(self.parseRuleBase())
+
+        if len(rules) == 1:
+            return rules[0]
+        else:
+            return Rule('OR', rules)
+
+    #RuleBase ::= (Nterm | Term | '{' Rule '}' | '(' Rule ')')+
+    def parseRuleBase(self):
+        rules = []
+
+        while self.token().tag in ['NTERM', 'TERM'] or self.token().get_text() in '{(':
+            if self.token().tag == 'NTERM':
+                rules.append(Rule('NTERM', self.parseNterm()))
+            elif self.token().tag == 'TERM':
+                rules.append(Rule('TERM', self.parseTerm()))
+            elif self.token().get_text() == '{':
+                self.parseString('{')
+                rule = self.parseRule()
+                self.parseString('}')
+                rules.append(Rule('MANY', rule))
+            else: #'('
+                self.parseString('(')
+                rules.append(self.parseRule())
+                self.parseString(')')
+
+        if len(rules) == 0:
+            self.generate_error('incorrect rule at %s' % self.token().start)
+        elif len(rules) == 1:
+            return rules[0]
+        else:
+            return Rule('CONCAT', rules)
+
+    # Nterm ::= Letter
+    def parseNterm(self):
+        if self.token().tag == 'NTERM':
+            nterm = self.token().get_text()
+            self.next()
+            return nterm
+        self.generate_error('incorrect nterm at %s' % self.token().start)
+        
+    # Term ::= '"' Nterm '"'
+    def parseTerm(self):
+        if self.token().tag == 'TERM':
+            term = self.token().get_text()
+            self.next()
+            return term
+
+        self.generate_error('incorrect term at %s' % self.token().start)
+
+    def parseString(self, string):
+        if self.token().get_text() != string:
+            self.generate_error('incorrect text at %s, %s expected' % (self.token().start, string))
+        self.next()
+
+    def EOF(self):
+        return self.index == len(self.tokens)
+
+    def token(self):
+        if self.EOF():
+            return Token('EOF', Position(''), Position(''))
+        return self.tokens[self.index]
+
+    def next(self):
+        if not self.EOF():
+            self.index += 1
+
+    def generate_error(self, text, exit=False):
+        raise Exception('ERROR: ', text)
 
     def init_FIRST(self):
         for X in self.P:
@@ -209,14 +274,18 @@ class Parser():
         elif x.type == 'NTERM':
             return self.FIRST[x.data]
         elif x.type == 'CONCAT':
-            [u,v] = x.data
+            u = x.data[0]
+            v = x.data[1:]
             first_u = self.get_FIRST(u)
 
             if 'eps' not in first_u:
                 return first_u
             else:
                 first_u.remove('eps')
-                return first_u.union(self.get_FIRST[v])
+                if len(v) == 1:
+                    return first_u.union(self.get_FIRST(v[0]))
+                else:
+                    return first_u.union(self.get_FIRST(Rule('CONCAT', v)))
         elif x.type == 'OR':
             result = set()
             for u in x.data:
@@ -224,116 +293,6 @@ class Parser():
             return result
         elif x.type == 'MANY':
             return self.get_FIRST(x.data).union(set(['eps']))
-
-class Rule:
-    def __init__(self, l=[], dont_split=False):
-        self.type, self.data = self.parse(l, dont_split)
-
-    def parse(self, l, dont_split):
-        if l == []: return None, None        
-
-        if dont_split:
-            if l[0].tag == 'NTERM':
-                return 'NTERM', l[0].get_text()
-            elif l[0].tag == 'TERM':
-                return 'TERM', l[0].get_text()
-            elif l[0].tag == 'LBRACE':
-                return 'MANY', Rule(l[1:-1])
-            elif l[0].tag == 'LBRCKT':
-                return self.parse(l[1:-1], False)
-            else:
-                raise Exception('ERROR', 'check syntax at %s' % l[0].start)
-        else:
-            rules = self.get_rules(l) #[RRR|RRR|RRR]
-            or_rules = self.split_rules_by_or(rules) #[[RRR],[RRR],[RRR]]
-            or_rules = [self.get_concat(rules) for rules in or_rules] #[R,R,R]
-            if len(or_rules) == 1:
-                return or_rules[0].type, or_rules[0].data
-            else:
-                return 'OR', or_rules
-
-    def get_concat(self, rules):
-        if len(rules) == 1: return rules[0]
-
-        concat = Rule()
-        concat.type = 'CONCAT'
-        concat.data = [rules[0], None]
-
-        result = concat
-
-        for rule in rules[1:-1]:
-            new_concat = Rule()
-            concat.data[1] = new_concat
-            new_concat.type = 'CONCAT'
-            new_concat.data = [rule, None]
-            concat = new_concat
-
-        new_concat = Rule()
-        new_concat.type = 'CONCAT'
-        concat.data[1] = rules[-1]
-        return result
-
-    def split_rules_by_or(self, rules):
-        res = []
-        elem = []
-        for rule in rules:
-            if rule != '|':
-                elem.append(rule)
-            else:
-                res.append(elem)
-                elem = []
-        res.append(elem)
-        return res
-
-    def get_rules(self, l):
-        rules = []
-
-        rule, l = self.lsplit(l)
-        rules.append(rule)
-
-        while l != []:
-            rule, l = self.lsplit(l)
-            rules.append(rule)
-
-        return rules
-
-    def lsplit(self, l):
-        brace_type = None
-
-        if l[0].tag == 'NTERM' or l[0].tag == 'TERM':
-            return Rule(l[:1], True), l[1:]
-        elif l[0].tag == 'OR':
-            return '|', l[1:]
-        elif l[0].tag == 'LBRCKT':
-            brace_type = 'BRCKT'
-        elif l[0].tag == 'LBRACE':
-            brace_type = 'BRACE'
-
-        brace_diff = 0
-        for i in range(len(l)):
-            if l[i].tag == 'L' + brace_type:
-                brace_diff += 1
-            elif l[i].tag == 'R' + brace_type:
-                brace_diff -= 1
-
-            if brace_diff == 0:
-                return Rule(l[:i+1], True), l[i+1:]
-                after_braces = l[i+1:]
-        raise Exception('ERROR', 'L%s at %s without R%s', (brace_type, l[0].start, brace_type))
-
-    def __str__(self):
-        return self.type
-
-def print_rule(rule, offset=0):
-    print ' '*offset + rule.type
-
-    if rule.type == 'TERM' or rule.type == 'NTERM':
-        print ' '*(offset+4), rule.data
-    elif rule.type == 'CONCAT' or rule.type =='OR':
-        for r in rule.data:
-            print_rule(r, offset+4)
-    else:
-        print_rule(rule.data, offset+4)
 
 def main():
     import sys
@@ -349,14 +308,13 @@ def main():
     #     print token
 
     parser = Parser(lexer.tokens)
-    if parser.errors:
-        for error in parser.errors:
-            print error
-        sys.exit(0)
+
+    print 'N = ', parser.N
+    print 'T = ', parser.T
 
     for x in parser.P:
         print '%s = ' % x
-        print_rule(parser.P[x])
+        parser.P[x].print_it(offset=4)
 
     parser.init_FIRST()
     print '------------FIRST-------------'
