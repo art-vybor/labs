@@ -447,10 +447,10 @@ class Predictor:
 
 def main():
     import sys
-    #gram = open('gram', 'r').read()
-    #text = open('gram', 'r').read()
-    gram = open('gram1', 'r').read()
-    text = open('gram1t', 'r').read()
+    gram = open('gram', 'r').read()
+    text = open('gram', 'r').read()
+    #gram = open('gram1', 'r').read()
+    #text = open('gram1t', 'r').read()
     lexer = Lexer(gram)
     if lexer.errors:
         for error in lexer.errors:
