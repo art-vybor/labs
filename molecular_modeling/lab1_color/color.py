@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import minimize, rosen, rosen_der
 from pybel import *
 
-print readstring('smi','c1ccccc1').molwt
+mol = readstring('smi','c1ccccc1')
+print mol
 #
 data = {
     'c1ccccc1': {'lambda':255, 'name':'Benzene'},
@@ -13,122 +14,83 @@ data = {
     'c3ccc2cc1ccccc1cc2c3': {'lambda':370, 'name':'Anthracene'},
     'c34cc2cc1ccccc1cc2cc3cccc4': {'lambda':460, 'name':'Tetracene'},
     'c1ccc2cc3cc4cc5ccccc5cc4cc3cc2c1': {'lambda':580,'name':'pentacene'},
-    'C1=CC=C2C=C3C=C4C=C5C=C6C=CC=CC6=CC5=CC4=CC3=CC2=C1'.lower(): {'lambda':693,'name':'hexacene'},
+    'C1=CC=C2C=C3C=C4C=C5C=C6C=CC=CC6=CC5=CC4=CC3=CC2=C1': {'lambda':693,'name':'hexacene'},
     'c1ccc5cccc4c5c1c2cccc3cccc4c23': {'lambda':432,'name':'perylene'},
     'c1ccccc1(c2ccccc2)': {'lambda':251.5, 'name':'bifenil'},
-
+    'C=CC(=CCCC(=CC=CC(=CC=CC(=CC=CC=C(C)C=CC=C(C)C=CC=C(C)CCC=C(C)C)C)C)C)C=C': {'lambda':506, 'name':'Lycopene'},
+    'c1cc2ccc3ccc4ccc5ccc6ccc1c7c2c3c4c5c67': {'lambda':411,'name':'coronene'}
 }
 
-test = {
-    
-    'c1cc2ccc3ccc4ccc5ccc6ccc1c7c2c3c4c5c67': {'lambda':411,'name':'coronene'},
-    #'c1ccc5cccc4c5c1c2cccc3cccc4c23': {'lambda':432,'name':'perylene'},
-    #'': {'lambda':291, 'name':'binaftil'},
-    #'': {'lambda':267, 'name':'digidrofenatren'},
+new_data = {}
+for smiles in data:
+    mol = readstring('smi', smiles)
+    mol.make3D()
+    new_data[mol.write('smi').lower()] = data[smiles]
 
+data =  new_data
 
+split_index = 8
 
-}
+train_set = {}
+test_set = {}
+i = 0
+for smiles in data:
+    if i < split_index:
+        train_set[smiles] = data[smiles]
+    else:
+        test_set[smiles] = data[smiles]
+    i+=1
 
 features = [
     lambda x: len(filter(lambda c: c=='c', x)),
+    lambda x: len(filter(lambda c: c=='@', x)),
     lambda x: len(filter(lambda c: c=='1', x)),
     lambda x: len(filter(lambda c: c=='2', x)),
     #lambda x: readstring('smi',x).molwt,
     lambda x: len(filter(lambda c: c.isdigit(), x)),
-    lambda x: len(x),
 ]
 
-x0=[1,1,1,1,1]
+def apply_features(smiles, features, model):
+    return sum([f(smiles)*v for f, v in zip(features, model)])
 
-z = []
+def distance_set(A,B):
+    return sum([abs(B[smiles]['lambda'] - A[smiles]['lambda']) for smiles in A])
 
-def d(vect, smiles):
-    d = 0
-    for i in range(len(features)):
-        d += features[i](smiles)*vect[i]
-    return d
+def train(dataset, features, model=[1,1,1,1,1]):
+    def func_min(model):
+        return distance_set(apply_model(dataset, features, model), dataset)
 
-def f(z, x):
-    return z[0]*x+z[1]
+    model = minimize(func_min, model, method='Nelder-Mead')    
 
-def r(vect):
-    r = 0 
-    for mol in data:
-        r += (f([1,1], d(vect, mol)) - data[mol]['lambda'])**2
-    return r
+    return list(model.x)
 
-def draw(x0):
-    global z
-    table_d_lambda = {}
-    for mol in data:
-        table_d_lambda[d(x0, mol)] = data[mol]['lambda']
+def apply_model(dataset, features, model):    
+    applied = {}
+    for smiles in dataset:
+        applied[smiles] = {'lambda': apply_features(smiles, features, model)}
+    return applied
 
-    x = table_d_lambda.keys()
-    print 'd (lambda) = ', x
-    y = table_d_lambda.values()
-    print 'lambda = ', y
-    # plot the data itself
-    pylab.plot(x, y, 'o')
-    # calc the trendline (it is simply a linear fitting)
-    z = numpy.polyfit(x, y, 1)
-    p = numpy.poly1d(z)
-    pylab.plot(x,p(x),'r-')
+def evaluate(dataset, predicted_set):
+    return distance_set(dataset, predicted_set) #/ sum([predicted_set[smiles]['lambda'] for smiles in predicted_set])
 
-    # the line equation:
-    print 'y=%.6fx+(%.6f)'%(z[0],z[1])
+def draw(dataset, type='o'):
+    x = []
+    y = []
+    i = 0
+    for smiles in dataset:
+        x.append(i)
+        y.append(dataset[smiles]['lambda'])
+        i+=1
+    
+    plt.axis([0, i, 0, 700])
+    plt.plot(x,y,'o')    
 
-    plt.plot(x,y,'o')
-    #plt.show()
-    plt.clf()
-draw(x0)
-
-print 'r = ', r(x0)
-
-res = minimize(r, x0, method='Nelder-Mead')
-
-print 'minimize r = ', r(res.x)
-print 'res.x = ', res.x
-draw(res.x)
-
-x = []
-y = []
-#test
-vect = res.x
-test_set = data
-
-# for a in test:
-#     test_set[a] = test[a]
-
-r = 0 
-for mol in test_set:
-    print test_set[mol]['name'], test_set[mol]['lambda'], f(z, d(vect, mol))
-    y.append(test_set[mol]['lambda'])
-    x.append(f(z, d(vect, mol)))
-
-    r += (f(z, d(vect, mol)) - test_set[mol]['lambda'])**2
-print 'OPTIMIZE R: ', r
-
-_x = []
-_y = []
-for mol in test:
-    print 'test: ', test[mol]['lambda'], f(z, d(vect, mol))
-    _y.append(test[mol]['lambda'])
-    _x.append(f(z, d(vect, mol)))
-plt.plot(_x,_y,'go')
-
-#test_random
-vect = x0
-r = 0 
-for mol in test_set:
-    r += (f(z, d(vect, mol)) - test_set[mol]['lambda'])**2
-print 'random R: ', r
-
-
-
-
-z = numpy.polyfit(x, y, 1)
-p = numpy.poly1d(z)
-pylab.plot(x,p(x),'r-')
-plt.plot(x,y,'o')
-plt.show()
+model = train(train_set, features)
+applied = apply_model(test_set, features, model)
+print 'apply', applied
+print 'evaluate', evaluate(test_set, applied)
+print 'evaluate random', evaluate(apply_model(test_set, features, [1,1,1,1,1]), applied)
+draw(test_set)
+draw(applied)
+#plt.show()
+#plt.clf()
