@@ -10,7 +10,7 @@ consts = {
     'C': 0.15, #coefficient of drag
     'air_density': 1.225,
     'lead_density': 11340,
-    'x_step': 0.001,    
+    'dx': 0.001,    
     'dt': 0.001,
 }
 
@@ -22,7 +22,7 @@ def plot(x, y, label, color=''):
     plt.xlabel('x')
     plt.ylim([0,70])
 
-def galilei(label='Galilei', alpha=None, v0=None, x0=None, g=None, x_step=None, **args):
+def galilei(label='Galilei', alpha=None, v0=None, x0=None, g=None, dx=None, **args):
     print label
 
     vx, vy = v0*cos(alpha), v0*sin(alpha)
@@ -38,7 +38,7 @@ def galilei(label='Galilei', alpha=None, v0=None, x0=None, g=None, x_step=None, 
     while y(x) >= 0:
         x_vect.append(x)
         y_vect.append(y(x))
-        x += x_step
+        x += dx
 
     print '\tlength: ', x
     print '\ttime: ', t(x)
@@ -94,6 +94,6 @@ def newton(label='Newton', alpha=None, v0=None, g=None, C=None, air_density=None
 galilei(**consts)
 newton(**consts)
 consts['C']=0
-newton(label='Galilei without drag', **consts)
+newton(label='Newton without drag', **consts)
 plt.legend()
 plt.show()
