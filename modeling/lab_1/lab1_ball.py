@@ -34,7 +34,7 @@ def galilei(label='Galilei', alpha=None, v0=None, x0=None, g=None, dx=None, **ar
 
     x_vect, y_vect = [], []
 
-    x = 1e-9
+    x = 0
     while y(x) >= 0:
         x_vect.append(x)
         y_vect.append(y(x))
@@ -57,7 +57,7 @@ def newton(label='Newton', alpha=None, v0=None, g=None, C=None, air_density=None
     print label
 
     m = lead_density * 4/3 * pi * r**3
-    betta = 0.5 * C * pi*r**2 *air_density
+    beta = 0.5 * C * pi*r**2 *air_density
 
     # F1x = -betta * vx * sqrt(vx**2 + vy**2)
     # F1y = -betta * vy * sqrt(vx**2 + vy**2)
@@ -66,8 +66,8 @@ def newton(label='Newton', alpha=None, v0=None, g=None, C=None, air_density=None
 
     vx, vy = v0*cos(alpha), v0*sin(alpha)
 
-    dvx_dt = lambda vy, vx: -betta*vx*sqrt(vx**2+vy**2)/m
-    dvy_dt = lambda vx, vy: -g-betta*vy*sqrt(vx**2+vy**2)/m
+    dvx_dt = lambda vy, vx: -beta*vx*sqrt(vx**2+vy**2)/m
+    dvy_dt = lambda vx, vy: -g-beta*vy*sqrt(vx**2+vy**2)/m
 
     x_vect, y_vect = [], []    
 
