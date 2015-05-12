@@ -26,8 +26,7 @@ def gaussian(A, b):
     x = [0]*n
 
     #A = A|b
-    for i in range(n):
-        A[i].append(b[i])
+    A = [A[i]+[b[i]] for i in range(n)]
 
     for k in range(1, n):
         for j in range(k, n):
@@ -35,16 +34,15 @@ def gaussian(A, b):
             for i in range(n+1):
                 A[j][i] -= m*A[k-1][i]
 
-    b = [A[i][len(A)] for i in range(len(A))]
+    b = [A[i][n] for i in range(n)]
 
     for i in range(n):
-        if (sum(A[i][j] for j in range(n)) == 0) and b[i] != 0:
+        if sum(A[i][j] for j in range(n)) == 0 and b[i] != 0:
             print 'SLAE is inconsistent'
             return []
 
     for i in range(n-1, -1, -1):
-        for j in range(i+1, n):
-            b[i] -=A[i][j]*x[j]
+        b[i] -= sum(A[i][j]*x[j] for j in range(i+1, n))
         x[i] = b[i]*1.0 / A[i][i]
  
     return x
@@ -78,6 +76,6 @@ def seidel(A, b, eps):
         converge = sqrt(sum((x[i]-p[i])**2 for i in range(n))) < eps
     return x
 
-print seidel(A2, b2, 0.001)
+#print seidel(A2, b2, 0.001)
 
-#print gaussian(A1, b1)
+print gaussian(A1, b1)
