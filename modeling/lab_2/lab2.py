@@ -4,7 +4,7 @@ import numpy
 
 A = [[1,0,0],
      [0,1,0],
-     [0,0,0]]
+     [0,0,1]]
 b = [1,2,1]
 x = [1,2,1]
 
@@ -78,4 +78,4 @@ def seidel(A, b, eps):
 
 #print seidel(A2, b2, 0.001)
 
-print gaussian(A1, b1)
+print gaussian(A, b1)
