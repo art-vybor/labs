@@ -1,6 +1,7 @@
 import copy
 from math import sqrt
 import numpy
+import random
 
 A = [[1,0,0],
      [0,1,0],
@@ -20,6 +21,26 @@ A2 =[[15, 2,-1,-1],
      [1,  1, 1,11]]
 b2 = [22,-14,-10,-20]
 x2 = [1, 2,   -1, -2]
+
+A = []
+k =1
+for i in range(20):
+    A.append([])
+    for j in range(20):
+        A[i].append(0)
+
+        if j == i:
+            A[i][i] = (i+1)*1.0/10000
+            #k+=1
+
+for i in range(20):
+    print A[i]
+
+b = []
+for i in range(20):
+    b.append(sum(A[i]))
+
+print b
 
 def gaussian(A, b):
     n = len(A)    
@@ -76,6 +97,6 @@ def seidel(A, b, eps):
         converge = sqrt(sum((x[i]-p[i])**2 for i in range(n))) < eps
     return x
 
-#print seidel(A2, b2, 0.001)
+print seidel(A2, b2, 0.001)
 
-print gaussian(A, b1)
+#print gaussian(A, b)

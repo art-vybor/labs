@@ -16,7 +16,7 @@ q = [0, 0] #[0.2, 0.3]
 F1 = map(parse_expr, 
             ['x + 3*log(x,10) - y**2', 
              '2*x**2 - x*y - 5*x + 1'])
-q1 = [3.5, 2.2] #[3.48, 2.26]
+q1 = [3.5, -2.7] #[3.48, 2.26]
 
 #fixed_point x = f1(x,y), y = f2(x,y)
 F2 = map(parse_expr, 
@@ -42,7 +42,6 @@ def jacobian(F):
 
 def newton(F, q, eps):        
     W = jacobian(F)
-    dx = [10**9, 10**9]
     result = q
 
     converge = False
@@ -51,10 +50,10 @@ def newton(F, q, eps):
         W_subs = subs_3d(W, result)
 
         #Wdx=-F
-        dx = linalg.solve(np.array(W_subs), -np.array(F_subs))
-        result = np.add(result, dx)
+        delta = linalg.solve(np.array(W_subs), -np.array(F_subs))
+        result = np.add(result, delta)
 
-        converge = linalg.norm(dx) < eps
+        converge = linalg.norm(delta) < eps
     return list(result)
 
 def fixed_point(F, q, eps):
@@ -71,5 +70,5 @@ def fixed_point(F, q, eps):
         converge = linalg.norm(delta) < eps
     return result
 
-#print newton(F1, q1, 0.1)
-print fixed_point(F2, q2, 0.000001)
+print newton(F, q, 0.001)
+#print fixed_point(F2, q2, 0.000001)
