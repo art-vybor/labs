@@ -1,0 +1,248 @@
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №3 \\
+по курсу <<Моделирование>>
+
+\bigskip
+
+{\large <<Cравнительный анализ методов решения систем нелинейных уравненний~(метод Ньютона, метод простых итераций)>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-91 \hfill \\
+Выборнов А. И.\hfill \medskip\\
+Руководитель:\\
+Домрачева А. Б.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+
+
+\section{Постановка задачи}
+    Провести сравнительный анализ методов Ньютона и простых итераций для решения систем нелинейных уравнений. Реализовать оба метода.
+
+\section{Теоретическая часть}
+    Дана система из $n$ нелинейных уравнений и $n$ переменных:
+    \begin{equation*}
+        \begin{cases}
+            f_1(x_1, x_2, ..., x_n) = 0 \\
+            f_2(x_1, x_2, ..., x_n) = 0 \\
+            ... \\
+            f_n(x_1, x_2, ..., x_n) = 0 \\
+        \end{cases}
+    \end{equation*}    
+
+    В системе $f_i(x_1, ..., x_n) \colon \mathbb{R}^n \to \mathbb{R}$ некоторые нелинейные функции. Для удобства в дальнейшем будем записывает систему в виде: $Fx=0$, где $F(x) = [f_1(x), ...,f_n(x)]^T$ и $x=(x_1, x_n)^T$.
+
+    Требуется найти вектор $x^*=(x_1^*, ..., x_n^*)^T$, который при подстановке в систему превращает каждое уравнение в верное равенство.
+
+    \subsection{Метод простых итераций}
+        {\it Метод простых итераций}~---~итерационный метод решения системы линейных уравнений.
+
+        Для решения системы нелинейных уравнений методом простых итераций необходимо систему $Fx=0$ привести к виду:
+        \begin{equation*}
+            \begin{cases}
+                x_1 = \varphi_1(x_1, x_2, ..., x_n) \\
+                x_2 = \varphi_2(x_1, x_2, ..., x_n) \\
+                ... \\
+                x_n = \varphi_n(x_1, x_2, ..., x_n) \\
+            \end{cases}
+        \end{equation*}
+
+        Для удобства запишем систему в виде $x=\Phi(x)$, где $\Phi(x) = [\varphi_1(x), ...,\varphi_n(x)]^T$. Построим итеративный процесс с помощью формулы: $x^{(k+1)}=\Phi(x^{(k)})$. \\Если $||x^{(k+1)}-x^{(k)}||<\varepsilon$, то заканчиваем процесс итерирования. 
+    
+
+        \subsubsection{Преимущества}
+            \begin{itemize}
+                \item За одну итерацию выполняется многим меньше вычислений, чем в методе Ньютона.
+                \item Простота реализации.
+            \end{itemize}
+        \subsubsection{Недостатки}
+            \begin{itemize}
+                \item Отсутствие сходимости для многих задач.
+                \item Необходимо выбирать достаточно близкое к ожидаемому ответу начальное приближение, чтобы данный метод сходился.
+            \end{itemize}
+
+    \subsection{Метод Ньютона}
+        {\it Метод Ньютона}~---~итерационный метод решения системы нелинейных уравнений.
+
+        Начинаем с вектора $x^(0)$. Затем строим итеративный процесс, основываясь на формуле $x^{(k+1)}=x^{(k)}-J^{-1}(x^{(k)})F(x^{(k)})$, где $J$~---~якобиан матрицы $F$.
+
+        На практике вычисление обратной матрицы достаточно трудоёмкая операция, поэтому вышеприведённую формулу преобразовывают к виду $J(x^{(k)})\Delta x^{(k)} = -F(x^{(k)})$, где $\Delta x^{(k)}=x^{(k+1)}-x^{(k)}$. Полученную формулу можно решить как СЛАУ относительно $\Delta x^{(k)}$, следовательно по $x^{(k)}$ мы можем получить $x^{(k+1)}$.
+
+        \subsubsection{Преимущества}
+            \begin{itemize}
+                \item Быстрая сходимость~---~если матрица Якоби невырожденна, то метод имеет квадратичную сходимость из хорошего начального приближения.
+            \end{itemize}
+        \subsubsection{Недостатки}
+            \begin{itemize}
+                \item Необходимо задавать достаточно хорошее начальное приближение.
+                \item Остутствие сходимости для многих задач.
+                \item Необходимость вычисления матрицы Якоби.
+                \item Необходимость решения СЛАУ на каждом шаге итерации.
+            \end{itemize}
+
+\section{Реализация}
+    В рамках лабораторной работы была написана программа на языке python, которая реализует методы Ньютона и простых итераций
+
+    \subsection{Метод Ньютона}
+    Ниже представлена метод на Python, реализующий метод Ньютона. Метод принимает на вход матрицу $F$, вектор начальное приближения $q$ и переменную, характеризующую точность вычислений $eps$, и возвращает вектор решения $result$.
+    \lstset{language=Python}
+        \begin{lstlisting}[mathescape] 
+    def newton(F, q, eps):        
+        W = jacobian(F)
+        result = q
+
+        converge = False
+        while not converge:
+            F_subs = subs_2d(F, result)
+            W_subs = subs_3d(W, result)
+
+            #Wdx=-F
+            dx = linalg.solve(np.array(W_subs), -np.array(F_subs))
+            result = np.add(result, dx)
+
+            converge = linalg.norm(dx) < eps
+        return list(result)
+    \end{lstlisting}
+
+    \subsection{Метод простых итераций}
+    Ниже представлена метод на Python, реализующий метод простых итераций. Метод принимает на вход матрицу $F$, вектор начальное приближения $q$ и переменную, характеризующую точность вычислений $eps$, и возвращает вектор решения $result$.
+    \lstset{language=Python}
+        \begin{lstlisting}[mathescape] 
+    def fixed_point(F, q, eps):
+        previous = q
+        converge = False
+        while not converge:
+            result = subs_2d(F, previous)
+            result = map(float, result)
+            
+            print previous, result
+            delta = np.subtract(result, previous)
+            previous = result
+
+            converge = linalg.norm(delta) < eps
+        return result
+    \end{lstlisting}
+
+\section{Выводы}
+    Метод Ньютона сходится очень быстро, но каждая итерация работает относительно медленно, метод простых итерация, напротив, сходится не так быстро, но каждая итерация требует намного меньшего количества вычислений. Также необходимо отметить, что метод простых итераций проще в реализации.
+
+\end{document}
