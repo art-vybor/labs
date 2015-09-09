@@ -51,6 +51,14 @@ class Edge:
         y = d*(vB.y()-vA.y()) + vA.y()
         return Vertex(x,y,h)
 
+    def get_adjacent_triangle(self, triangle):
+        if self.triangles[0] == triangle:
+            return self.triangle[1]
+        return self.triangle[0]
+
+    def not_border(self, triangle):
+        return len(self.triangles) > 1
+
     def __str__(self):
         return '[%s, %s]' % tuple(self.vertices)
 
@@ -168,17 +176,61 @@ def merge_isoline(isoline):
 def filter_triangles(triangles):
     pass
 
+
+def get_isoline_subsegment(edge, triangle, triangles_marked):
+    subsegment = []
+
+    while edge.not_border():
+        adjacent_triangle = edge.get_adjacent_triangle(triangle)
+        adjacent_triangle.get_other_intercetion_edge()
+        
+        
+
+
+def get_isoline_segment(h, triangles_marked):
+    triangle = triangles_marked.popitem()
+
+    isoline_segment = []
+
+    edges = triangle.get_intersection_isoline_edges(h)
+
+    edge_left = edges[0]
+    left_triangle = triangle
+    cur_edge_right = edges[1]
+
+    while edge_left:
+
+        triangle = edge_left.get_another_triangle(left_triangle)
+
+
+        if left_triangle in triangles_marked:
+            del triangles_marked[left_triangle]
+
+
+
+
+    return reversed(segment_left) + segment_right
+        
+
+
+        #get new triangle by edge
+
+        #pop cur triangle
+        pass
+
+
 def get_isoline(h, triangles):
     h, triangles = filter_triangles(triangles)
 
     triangles_marked = {triangle: 1 for triangle in triangles}
 
+    isoline = []
     while triangles_marked:
-        #get triangle
+        isoline_segment = get_isoline_segment(h, triangles_marked)
 
-        #get edges intersection
+        isoline.append(isoline_segment)
 
-        #
+    return isoline
 
 
 
