@@ -1,7 +1,6 @@
 import itertools
 
 obj_filename='examples/landscape_mini.obj'
-h = 0.8
 delta_h = 0.00001
 
 class Vertex:
@@ -43,9 +42,9 @@ class Edge:
         return self.vertices[0].z() < h and h < self.vertices[1].z() or \
                 self.vertices[1].z() < h and h < self.vertices[0].z()
 
-    def get_vertex_of_isoline_intersection(h):
-        vA = edge.vertices[0]
-        vB = edge.vertices[1]
+    def get_vertex_of_isoline_intersection(self, h):
+        vA = self.vertices[0]
+        vB = self.vertices[1]
         d = (h-vA.z()) / (vB.z()-vA.z())
         x = d*(vB.x()-vA.x()) + vA.x()
         y = d*(vB.y()-vA.y()) + vA.y()
@@ -56,7 +55,7 @@ class Edge:
             return self.triangle[1]
         return self.triangle[0]
 
-    def not_border(self, triangle):
+    def not_border(self):
         return len(self.triangles) > 1
 
     def __str__(self):
@@ -91,20 +90,6 @@ class Triangle:
     def get_intersection_isoline_edges(self, h):
         return filter(lambda x: x.intersect_isoline(h), self.edges)
 
-    # def get_segment_of_isoline(self, h):
-    #     segment = []
-    #     for edge in self.edges:
-    #         if edge.intersect_isoline(h):
-    #             vA = edge.get_vertices()[0]
-    #             vB = edge.get_vertices()[1]
-    #             d = (h-vA.z()) / (vB.z()-vA.z())
-    #             x = d*(vB.x()-vA.x()) + vA.x()
-    #             y = d*(vB.y()-vA.y()) + vA.y()
-    #             segment.append(Vertex(x,y,h))
-
-    #     return segment
-
-
     def __str__(self):
         return '{%s, %s, %s}' % tuple(self.get_vertices())
 
@@ -130,97 +115,50 @@ def read_obj_file(filename):
     return vertices, triangles
 
 
-def merge_isoline(isoline):
-    merged_isoline = []
-    for vertex1 in isoline:
-        for vertex2 in isoline:
-            if vertex1 != vertex2:
-                pass
-    
+def filter_triangles(h, triangles):
+    triangles_marked = []
+    while True:
+        triangles_marked = filter(lambda x: x.isoline_exist(h), triangles)
+
+        if any(triangle.edge_in_isoline(h) for triangle in triangles_marked):
+            h -= delta_h
+        else:
+            break
+    return h, triangles_marked
 
 
-# def get_isoline(h, vertices, triangles):
-#     isoline = []
-#     triangles_marked = {}
-#     while True:
-#         triangles_marked = {triangle: 1 for triangle in triangles if triangle.isoline_exist(h)}
-
-#         if any(triangle.edge_in_isoline(h) for triangle in triangles_marked):
-#             h -= delta_h
-#         else:
-#             break
-
-#     cur_segment_of_isoline = []
-#     while triangles_marked:
-#         triangle = triangles_marked.popitem()
-
-#         edges = triangle.get_intersection_isoline_edges(h)
-#         v0 = edges[0].get_vertex_of_isoline_intersection(h)
-#         v1 = edges[1].get_vertex_of_isoline_intersection(h)
-
-#         cur_segment_of_isoline.extend([v0, v1])
-
-
-
-
-#     for x in sorted(isoline, key=lambda x: str(x)):
-#         print x
-
-#     return isoline
-
-# vertices, triangles = read_obj_file(obj_filename)
-
-# print get_isoline(h, vertices, triangles)
-
-
-def filter_triangles(triangles):
-    pass
-
-
-def get_isoline_subsegment(edge, triangle, triangles_marked):
+def get_isoline_subsegment(h, edge, triangle, triangles_marked):
     subsegment = []
-
+    print edge, edge.triangles
     while edge.not_border():
         adjacent_triangle = edge.get_adjacent_triangle(triangle)
-        adjacent_triangle.get_other_intercetion_edge()
-        
+
+        del triangles_marked[adjacent_triangle]
+
+        edge = adjacent_triangle.get_other_intercetion_edge()
+
+        subsegment.append(edge.get_vertex_of_isoline_intersection(h))
+    return subsegment
         
 
 
 def get_isoline_segment(h, triangles_marked):
-    triangle = triangles_marked.popitem()
+    triangle = triangles_marked.popitem()[0]
 
     isoline_segment = []
 
     edges = triangle.get_intersection_isoline_edges(h)
+    v0 = edges[0].get_vertex_of_isoline_intersection(h)
+    v1 = edges[1].get_vertex_of_isoline_intersection(h)
 
-    edge_left = edges[0]
-    left_triangle = triangle
-    cur_edge_right = edges[1]
+    subsegment_left = get_isoline_subsegment(h, edges[0], triangle, triangles_marked)
+    subsegment_right = get_isoline_subsegment(h, edges[1], triangle, triangles_marked)
 
-    while edge_left:
-
-        triangle = edge_left.get_another_triangle(left_triangle)
-
-
-        if left_triangle in triangles_marked:
-            del triangles_marked[left_triangle]
-
-
-
-
-    return reversed(segment_left) + segment_right
-        
-
-
-        #get new triangle by edge
-
-        #pop cur triangle
-        pass
+    return list(reversed(subsegment_left)) + [v0, v1] + subsegment_right
 
 
 def get_isoline(h, triangles):
-    h, triangles = filter_triangles(triangles)
+    h, triangles = filter_triangles(h, triangles)
 
     triangles_marked = {triangle: 1 for triangle in triangles}
 
@@ -233,9 +171,10 @@ def get_isoline(h, triangles):
     return isoline
 
 
+vertices, triangles = read_obj_file(obj_filename)
 
-
-
-
-
-
+isoline = get_isoline(0.8, triangles)
+for segment in isoline:
+    for vertex in segment:
+        print vertex
+    print '-----------------'
