@@ -83,12 +83,8 @@ class Edge:
         another_edge = edges[0] if self != edges[0] else edges[1]
         v1, v2 = self.vertices
         v3, v4 = another_edge.get_vertices()
-        if v1.equal_to(v3):
+        if v1.equal_to(v3) or v2.equal_to(v3):
             v3 = v4
-
-        x1, y1 = v1.x(), v1.x()
-        x2, y2 = v2.x(), v2.x()
-        x3, y3 = v3.x(), v3.x()
 
         D = (v3.x() - v1.x()) * (v2.y() - v1.y()) - (v3.y() - v1.y()) * (v2.x() - v1.x()) #http://www.cyberforum.ru/delphi/thread652199.html
 

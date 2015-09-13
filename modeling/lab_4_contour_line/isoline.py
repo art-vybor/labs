@@ -62,6 +62,7 @@ def get_isoline(h, triangles):
 
     return isoline
 
+
 color_generator = cycle('bgrcmk')
 
 def print_isoline(isoline):    
@@ -75,6 +76,4 @@ def print_isoline(isoline):
             y.append(y[0])
 
         plt.plot(x, y, color=color)
-
-    #plt.plot(x, y)
     
