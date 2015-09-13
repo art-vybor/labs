@@ -3,7 +3,6 @@ from itertools import cycle
 
 
 def filter_triangles(h, triangles, delta_h=0.00001):
-
     triangles_marked = []
     while True:
         triangles_marked = filter(lambda x: x.isoline_exist(h), triangles)

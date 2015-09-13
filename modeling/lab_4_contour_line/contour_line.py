@@ -8,12 +8,13 @@ from obj_io import read_obj_file
 import matplotlib.pyplot as plt
 
 
-obj_filename='examples/landscape_mini_new.obj'
+obj_filename='examples/landscape_big/landscape.obj'
 start = 0
-end = 0.28
-step = 0.02
-color_interval = [0.3, 0.8]
+end = 4.25
+step = 0.25 #0.05, 0.1
+color_interval = [0.3, 0.9]
 
+plt.axis('equal')
 
 _, triangles = read_obj_file(obj_filename)
 
@@ -28,12 +29,14 @@ segments_not_closed = []
 
 for h in h_range:
     isoline = get_isoline(h, triangles)
+    #print_isoline(isoline)
     for segment in isoline:
         if segment['closed']:
             isocontours[h].append(segment['vertices'])
         else:
             segments_not_closed.append(segment['vertices'])
 
+#plt.show()
 
 graph = Graph()
 
@@ -73,19 +76,33 @@ for edge in border_edges:
         graph.add_edge(node1, node2, GraphEdge([]))
 
 
-graph.print_it('out.dot')
+#graph.print_it('out.dot')
 
 
 node = graph.get_node()
 while node:
     h, segment = graph.get_isocontour_segment(node)
-    isocontours[min(h)].append(segment)
+    # x = [vertex.x() for vertex in segment]
+    # y = [vertex.y() for vertex in segment]
+    # x.append(x[0])
+    # y.append(y[0])
+
+    # plt.plot(x, y, color='k')
+    # plt.show()
+
+    if h:
+        isocontours[max(h)].append(segment)
+    else:
+        isocontours[0].append(segment)
     node = graph.get_node()
 
 delta_color = (color_interval[1] - color_interval[0])/len(h_range)
 color = color_interval[1]
 
+#h_range = h_range[:6]
+
 for h in h_range:
+    print color
     for segment in isocontours[h]:
         x = [vertex.x() for vertex in segment]
         y = [vertex.y() for vertex in segment]
@@ -93,6 +110,21 @@ for h in h_range:
         y.append(y[0])
 
         plt.fill(x, y, color=str(color))
-        #plt.plot(x, y, color='k')
+        plt.plot(x, y, color='k')
+
     color -= delta_color
-plt.show()
+    plt.show()
+    
+
+# color = color_interval[1]
+# for h in h_range:
+#     for segment in isocontours[h]:
+#         x = [vertex.x() for vertex in segment]
+#         y = [vertex.y() for vertex in segment]
+#         x.append(x[0])
+#         y.append(y[0])
+
+#         plt.fill(x, y, color=str(color))
+#         #plt.plot(x, y, color='k')
+#     color -= delta_color
+# plt.show()

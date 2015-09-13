@@ -132,7 +132,7 @@ class Triangle:
 
     def edge_in_isoline(self, h):
         for edge in self.edges:
-            if edge.get_vertices()[0] == h and edge.get_vertices()[1] == h:
+            if edge.get_vertices()[0].z() == h or edge.get_vertices()[1].z() == h:
                 return True
         return False
 
