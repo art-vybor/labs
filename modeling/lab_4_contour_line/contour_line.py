@@ -8,10 +8,10 @@ from obj_io import read_obj_file
 import matplotlib.pyplot as plt
 
 
-obj_filename='examples/landscape_big/landscape.obj'
+obj_filename='examples/landscape_mini/landscape.obj'
 start = 0
-end = 4.25
-step = 0.25 #0.05, 0.1
+end = 0.25
+step = 0.03 #0.05, 0.1
 color_interval = [0.3, 0.9]
 
 plt.axis('equal')
@@ -102,7 +102,7 @@ color = color_interval[1]
 #h_range = h_range[:6]
 
 for h in h_range:
-    print color
+    #print color
     for segment in isocontours[h]:
         x = [vertex.x() for vertex in segment]
         y = [vertex.y() for vertex in segment]
@@ -110,10 +110,10 @@ for h in h_range:
         y.append(y[0])
 
         plt.fill(x, y, color=str(color))
-        plt.plot(x, y, color='k')
+        #plt.plot(x, y, color='k')
 
     color -= delta_color
-    plt.show()
+plt.show()
     
 
 # color = color_interval[1]
