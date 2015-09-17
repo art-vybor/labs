@@ -22,13 +22,13 @@ node_factory = GraphNodeFactory()
 class GraphNode:
     def __init__(self, vertex):
         self.vertex = vertex
-        self.edges = []
+        # self.edges = []
 
     def get_intersect_edge(self):
         return self.vertex.get_intersect_edge()
 
-    def add_edge(self, edge):
-        self.edges.append(edge)
+    # def add_edge(self, edge):
+    #     self.edges.append(edge)
 
     def get_vertex(self):
         return self.vertex
