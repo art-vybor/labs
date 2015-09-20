@@ -1,3 +1,4 @@
+
 % utf-8 ru, unix eolns
 \documentclass[12pt,a4paper,oneside]{extarticle}
     \righthyphenmin=2 %минимально переносится 2 символа %%%
@@ -141,11 +142,114 @@
 
 
 \section{Постановка задачи}
-    Моделировать прыжок на батуте. Коэффициент упругости батута $k$, масса прыгуна $m$. Считать, что для набора высоты прыгун отталкивается $n$ раз, прыгает в вертикальном направлении. Построить зависимость набранной высоты от количества прыжков.
-
-\section{Построение математической модели}
+    Кластерная система, состоящая из 25 узлов, осуществляет выполнения задач. Задачи поступают по нормальному закону распределения с матожиданием 5 секунд и дисперсией 2. Время обработки каждой задачи 5-10 минут. Кластер имеет буфер для хранения 10 задач, если все узлы заняты, то задача помещается в буфер, если буфер заполнен, то задача считается утерянной и в буфер не помещается. Провести моделирование обработки 100 задач, определить загрузку кластера и количество утерянных задач.
 
 
+\section{Реализация}
+    \subsection{Код программы на языке GPSS}
+    \label{sec:gpss}
+
+        \begin{lstlisting}
+    }
+cluster     STORAGE     25                              ; cluster of 25 nodes
+            
+            GENERATE    (Normal(1,5,SQR(2)))            ; generate tasks Mx=5, Dx=2
+            QUEUE       buffer_queue                    ; task entered to buffer
+            TEST L      Q$buffer_queue,10,unprocessed   ; if > 10 task in buffer goto unprocessed
+            ENTER       cluster                         ; task sended to cluster
+            DEPART      buffer_queue                    ; task leaved buffer
+            ADVANCE     120,30                          ; processed task 2-3m
+            LEAVE       cluster                         ; task left cluster
+            TERMINATE   1                               ; task successed
+
+unprocessed DEPART      buffer_queue                    ; task left buffer
+            TERMINATE   1                               ; task not precessed
+
+            START       100                             ; loop for 100 task
+        \end{lstlisting}
+
+    \subsection{Отчёт GPSS}
+    \label{sec:report}
+        Ниже представлен отчёт GPSS, полученный после выполнения программы, представленной в главе~\ref{sec:gpss}.
+
+        \begin{lstlisting}
+
+
+              GPSS World Simulation Report - Untitled Model 1.1.1
+
+
+                   ???????, ???????? 19, 2015 22:23:05  
+
+           START TIME           END TIME  BLOCKS  FACILITIES  STORAGES
+                0.000            635.466    10        0          1
+
+
+              NAME                       VALUE  
+          BUFFER_QUEUE                10001.000
+          CLUSTER                     10000.000
+          UNPROCESSED                     9.000
+
+
+ LABEL              LOC  BLOCK TYPE     ENTRY COUNT CURRENT COUNT RETRY
+                    1    GENERATE           130             0       0
+                    2    QUEUE              130             0       0
+                    3    TEST               130             5       0
+                    4    ENTER              125             1       0
+                    5    DEPART             124             0       0
+                    6    ADVANCE            124            24       0
+                    7    LEAVE              100             0       0
+                    8    TERMINATE          100             0       0
+UNPROCESSED         9    DEPART               0             0       0
+                   10    TERMINATE            0             0       0
+
+
+QUEUE              MAX CONT. ENTRY ENTRY(0) AVE.CONT. AVE.TIME   AVE.(-0) RETRY
+ BUFFER_QUEUE        7    6    130     73     1.407      6.879     15.689   0
+
+
+STORAGE            CAP. REM. MIN. MAX.  ENTRIES AVL.  AVE.C. UTIL. RETRY DELAY
+ CLUSTER            25    0   0    25      125   1   21.678  0.867    0    5
+   \end{lstlisting}
+
+\section{Тестирование}
+\label{sec:test}
+        \begin{figure}[h!]        
+        \centering
+            \begin{tikzpicture}[scale=2]
+                \begin{axis}[ylabel=загрузка кластера (\%), xlabel=число узлов в кластере]
+                 \tiny
+                    \addplot coordinates {                            
+                        (5, 97.4)
+                        (10, 95.3)
+                        (15, 93.5)
+                        (20, 91.1)
+                        (25, 86.7)
+                        (30, 72.4)
+                    };
+                \end{axis}
+            \end{tikzpicture}
+        \caption{Зависимость загрузки кластера от числа узлов}
+        \label{pic:test}
+        \end{figure}
+
+        \begin{figure}[h!]        
+        \centering
+            \begin{tikzpicture}[scale=2]
+                \begin{axis}[ylabel=количество утерянных задач, xlabel=число узлов в кластере]
+                 \tiny
+                    \addplot coordinates {                            
+                        (5, 79)
+                        (10, 60)
+                        (15, 33)
+                        (20, 14)
+                        (25, 0)
+                        (30, 0)
+                    };
+                \end{axis}
+            \end{tikzpicture}
+        \caption{Зависимость количества утерянных задач от числа узлов}
+        \label{pic:test2}
+        \end{figure}
 
 \section{Выводы}
     Как видно из представленного в главе~\ref{sec:report} отчёта кластер был загружен на 86.7\%, при этом не было утеряно ни одной задачи.
