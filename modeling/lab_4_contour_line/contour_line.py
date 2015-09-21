@@ -8,10 +8,11 @@ from obj_io import read_obj_file
 import matplotlib.pyplot as plt
 
 
-obj_filename='examples/landscape_mini/landscape.obj'
-start = 0
-end = 0.25
-step = 0.03 #0.05, 0.1
+#obj_filename='examples/landscape_big/landscape.obj'
+obj_filename='examples/circle.obj'
+start = 0.0
+end = 10.0
+step = 0.5 #0.05, 0.1
 color_interval = [0.3, 0.9]
 
 plt.axis('equal')
@@ -96,7 +97,7 @@ while node:
         isocontours[0].append(segment)
     node = graph.get_node()
 
-delta_color = (color_interval[1] - color_interval[0])/len(h_range)
+delta_color = (color_interval[1] - color_interval[0])*1.0/len(h_range)
 color = color_interval[1]
 
 #h_range = h_range[:6]
