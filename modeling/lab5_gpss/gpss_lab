@@ -5,7 +5,7 @@ cluster     STORAGE     25                              ; cluster of 25 nodes
             TEST L      Q$buffer_queue,10,unprocessed   ; if more than 10 task in buffer goto unprocessed
             ENTER       cluster                         ; task sended to cluster
             DEPART      buffer_queue                    ; task leaved buffer
-            ADVANCE     120,30                          ; processed task 2-3m
+            ADVANCE     150,30                          ; processed task 2-3m
             LEAVE       cluster                         ; task left cluster
             TERMINATE   1                               ; task successed
 

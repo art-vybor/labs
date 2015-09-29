@@ -1,0 +1,258 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\tiny,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №5 \\
+по курсу <<Моделирование>>
+
+\bigskip
+
+{\large <<Работа с системой моделирования GPSS>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А. И.\hfill \medskip\\
+Руководитель:\\
+Домрачева А. Б.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+
+
+\section{Постановка задачи}
+    Кластерная система, состоящая из $m$ узлов, осуществляет выполнения задач. Задачи поступают по нормальному закону распределения с матожиданием 5 секунд и дисперсией 2. Время обработки каждой задачи 2-3 минуты. Кластер имеет буфер для хранения 10 задач, если все узлы заняты, то задача помещается в буфер, если буфер заполнен, то задача считается утерянной и в буфер не помещается. Провести моделирование обработки 100 задач, определить загрузку кластера и количество утерянных задач.
+
+
+\section{Реализация}
+    \subsection{Код программы на языке GPSS}
+    Ниже представлен код программы, для количества узлов $m = 25$:
+    \label{sec:gpss}
+
+        \begin{lstlisting}  
+cluster     STORAGE     25                              ; cluster of 25 nodes
+            
+            GENERATE    (Normal(1,5,SQR(2)))            ; generate tasks Mx=5, Dx=2
+            QUEUE       buffer_queue                    ; task entered to buffer
+            TEST L      Q$buffer_queue,10,unprocessed   ; if > 10 task in buffer goto unprocessed
+            ENTER       cluster                         ; task sended to cluster
+            DEPART      buffer_queue                    ; task leaved buffer
+            ADVANCE     150,30                          ; processed task 2-3m
+            LEAVE       cluster                         ; task left cluster
+            TERMINATE   1                               ; task successed
+
+unprocessed DEPART      buffer_queue                    ; task left buffer
+            TERMINATE   1                               ; task not precessed
+
+            START       100                             ; loop for 100 task
+        \end{lstlisting}
+
+    \subsection{Отчёт GPSS}
+    \label{sec:report}
+        Ниже представлен отчёт GPSS, полученный после выполнения программы, представленной в главе~\ref{sec:gpss}.
+
+        \begin{lstlisting}
+
+
+              GPSS World Simulation Report - Untitled Model 1.1.1
+
+
+                   ???????, ???????? 29, 2015 11:30:27  
+
+           START TIME           END TIME  BLOCKS  FACILITIES  STORAGES
+                0.000            654.748    10        0          1
+
+
+              NAME                       VALUE  
+          BUFFER_QUEUE                10001.000
+          CLUSTER                     10000.000
+          UNPROCESSED                     9.000
+
+
+ LABEL              LOC  BLOCK TYPE     ENTRY COUNT CURRENT COUNT RETRY
+                    1    GENERATE           133             0       0
+                    2    QUEUE              133             0       0
+                    3    TEST               133             8       0
+                    4    ENTER              109             1       0
+                    5    DEPART             108             0       0
+                    6    ADVANCE            108            24       0
+                    7    LEAVE               84             0       0
+                    8    TERMINATE           84             0       0
+UNPROCESSED         9    DEPART              16             0       0
+                   10    TERMINATE           16             0       0
+
+
+QUEUE              MAX CONT. ENTRY ENTRY(0) AVE.CONT. AVE.TIME   AVE.(-0) RETRY
+ BUFFER_QUEUE       10    9    133     43     4.969     24.462     36.149   0
+
+
+STORAGE            CAP. REM. MIN. MAX.  ENTRIES AVL.  AVE.C. UTIL. RETRY DELAY
+ CLUSTER            25    0   0    25      109   1   22.412  0.896    0    8
+   \end{lstlisting}
+
+\section{Тестирование}
+\label{sec:test}
+        \begin{figure}[h!]        
+        \centering
+            \begin{tikzpicture}[scale=2]
+                \begin{axis}[ylabel=загрузка кластера (\%), xlabel=число узлов в кластере]
+                 \tiny
+                    \addplot coordinates {                            
+                        (5, 97.5)
+                        (10, 95.3)
+                        (15, 93.6)
+                        (20, 91.5)
+                        (25, 89.6)
+                        (30, 86.8)
+                    };
+                \end{axis}
+            \end{tikzpicture}
+        \caption{Зависимость загрузки кластера от числа узлов}
+        \label{pic:test}
+        \end{figure}
+
+        \begin{figure}[h!]        
+        \centering
+            \begin{tikzpicture}[scale=2]
+                \begin{axis}[ylabel=количество утерянных задач, xlabel=число узлов в кластере]
+                 \tiny
+                    \addplot coordinates {                            
+                        (5, 84)
+                        (10, 68)
+                        (15, 49)
+                        (20, 33)
+                        (25, 16)
+                        (30, 0)
+                    };
+                \end{axis}
+            \end{tikzpicture}
+        \caption{Зависимость количества утерянных задач от числа узлов}
+        \label{pic:test2}
+        \end{figure}
+
+\section{Выводы}
+    Как видно из представленного в главе~\ref{sec:report} отчёта при $m=25$ кластер был загружен на 89.6\%, при этом было утеряно 16 задач.
+
+    Из тестирования, описанного в главе~\ref{sec:test}, видно что чем больше узлов в кластере, то тем меньше его загрузка и меньше количество утерянных задач.
+\end{document}
