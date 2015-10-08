@@ -1,0 +1,18 @@
+----------------------------
+------art-vybor server------
+----------------------------
+
+Hot to use this server
+----------------------
+To run server you must excecute :main function of server.hs.
+You can watch result on localhost:1488.
+The content must be put into ./www
+./www/.temp - is a system directory, don't change it during server work's.
+You can invoke script in GET request style: path/name?arg1=smth&arg2=...
+
+How to write a script
+----------------------
+Script this a binary program with any non empty file extension, which get args into standart input and return html page into standart output. 
+At first program get n - integer number of args. After this program get 2*n args as string separate by space. String number i and i+1 are arg and his value respectivetly.
+
+

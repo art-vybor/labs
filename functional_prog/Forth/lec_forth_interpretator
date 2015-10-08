@@ -1,0 +1,94 @@
+
+Чтение файла *.fs -> разбор на слова(lines, words) -> Выполнение слов
+
+forth example : ": f 1 swap 1 + 1 do i * loop . ;"
+
+words :: [String]    	список слов
+counter :: Int   		счётчик
+xs :: [Int]				стек данных
+rs :: [Int]				стек возвратов
+ls :: [Int]				стек для счётчиков циклов
+fs :: [Double]			стек для операций с плавающей запятой(не обязателен)
+vs :: [(String, Int)]   список для переменных(не обязателен)
+st :: [(String, Int)]   список статей
+data Forth
+
+
+
+go = exec Forth {...} - инициализация форт системы
+-----
+примерный алгоритм
+-----
+   (w_i)
+	 |	      да?
+(конец прог?) -> 
+     |        дa?
+(w_i целое?)  -> (push int w) -> (next)
+     |		  да?
+(w_i in ws ?) -> (op = w_(i+1)) -> (w_(i+2))
+	 |			  (op w)
+	 |нет?
+	 |				   да?
+(w_i in user_articles) -> (переходим к статье) -> (next)
+	 |						(count -> rs)
+	 | нет?
+     |	              да?
+(w_i in built_in)     -> (выполнение) -> (next)
+	 |
+	 |нет?
+	 |
+  (error)->(end)
+-----
+проверка на целое: первая буква +, - или цифра, остальные цифры
+-----
+exec forth
+	| isEnd = return ()
+	| isInt = push w forth
+			>>= next
+			>>= exec
+	| isVar = var (w, v)
+			forth >>= next
+				  >>= exec
+	| isArt = sub ... forth -- переход по нужному адресу
+				>>= next
+				>>= forth
+	| otherwise = builtin w forth
+					>>= next
+					>>= exec
+where
+	...
+-----
+builtin :: String -> Forth -> IO Forth
+builtin "er" forth =
+		putStrLn " " >>
+		return forth
+	...
+builtin w _ = error
+	("Unknown word" ++ w ")
+-----
+binOp op forth = 
+	= { ... result }
+	where x1 = 
+		x2 = 
+		result = op x1 x2
+
+builtin "*" forth = binOp (*) forth
+-----
+False = 0
+True /= 0 (обычно True = -1)
+-----
+if
+	...
+	...
+	exit
+then
+-----
+: test
+if
+	." true" cr   (cr - перевод на новую строку при выводе в консоль)
+then
+;
+
+
+
+-----

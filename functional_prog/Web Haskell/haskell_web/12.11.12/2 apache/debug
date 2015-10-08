@@ -1,0 +1,46 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	ServerName debug
+	DocumentRoot /home/oak/Sites/debug/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+		DirectoryIndex index.html 
+	</Directory>
+	<Directory /home/oak/Sites/debug/www>
+		Options Indexes FollowSymLinks MultiViews +Includes
+		# AddType text/html .shtml
+		# AddOutputFilter INCLUDES .shtml
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /home/oak/Sites/debug/cgi-bin/
+	<Directory "/home/oak/Sites/debug/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		# AddHandler cgi-script .py
+                UnSetEnv LD_PRELOAD
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+</VirtualHost>

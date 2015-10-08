@@ -1,0 +1,7 @@
+graph:("graph"|"digraph"){stmt_list}
+stmt_list:[stmt[';'][stmt_list]]
+stmt:node|edge
+edge:(node_id)edgeRHS 
+edgeRHS:edgeop (node_id)
+node:node_id
+node_id:ID
