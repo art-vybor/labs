@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Forms</title>
+    <style type="text/css">
+        .frm { 
+            float: left; 
+            margin-left: 2em;
+            padding: 2ex 2em;
+            border: solid 1px black; 
+            width: 20em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Forms</h1>
+    <div class="frm">
+        <h2>GET</h2>
+        <form action="/cgi-bin/xlo" method="GET">
+            <p>text: <input type="text"  name="t">
+            
+            <p><input type="radio"    name="r" checked> radio 1<br>
+               <input type="radio"    name="r">         radio 2<br>
+               <input type="radio"    name="r">         radio 3
+               
+            <p><input type="checkbox" name="b1"> checkbox 1 <br>
+               <input type="checkbox" name="b2"> checkbox 2
+               
+               <input type="hidden"   name="h" value="hidden text">
+               
+            <p>select: 
+                <select name="s">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                </select>
+                
+            <p><input type="submit" value="Send">
+        </form>
+    </div>
+    <div class="frm">
+    <h2>POST</h2>
+        <form action="/cgi-bin/xlo" method="POST" enctype="multipart/form-data">
+            <p><input type="file" name="upload">
+            
+            <p>Comment:<br>
+                <textarea name="comment" cols=30 rows=5></textarea>
+               
+            <p><input type="reset" value="Clear"> 
+               <input type="submit" value="Send">
+        </form>
+    </div>
+</body>

@@ -1,0 +1,21 @@
+(define (dec x) (- x 1))
+(define (fact x) (if (== x 0) 
+                        1
+                        (* x (fact (dec x)) ) )
+)
+(define x 1)
+(define (square x y) (* x y))
+(define (isTrue x) (if (== x 0) False True))
+
+2
+3
+(- 2 3)
+(+ 1 1 1)
+(dec (* (x) 11) )
+(isTrue 0)
+(define (a x) (if (== x 0) 1 0))
+(a 0)
+(square (fact (+ x 3)) 5)
+(fact 7)
+(define (unary x) (- x (* 2 x)))
+(unary 4)

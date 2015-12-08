@@ -1,0 +1,1 @@
+gcd' a b = if b == 0 then a else gcd' b (rem a b)

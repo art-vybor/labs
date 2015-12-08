@@ -1,0 +1,16 @@
+<recipe name="a" preptime="5" cooktime="180">
+  <title>b</title>
+  <b type="asd"/>
+  <composition>
+    <ingredient amount="3" unit="abc">dfs</ingredient>
+    <ingredient amount="0.25" unit="def">dsfdsf</ingredient>
+    <ingredient amount="1.5" unit="blabla">123s</ingredient>
+    <ingredient amount="1" unit="asd">sdfsd</ingredient>
+  </composition>
+  <instructions>
+    <step>saf</step>
+    <step>fssd</step>
+    <!-- <step>Почитать вчерашнюю газету.</step>  это сомнительный шаг... -->
+    <step>sdas</step>
+  </instructions>
+</recipe>
