@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 
-f1 = [random.randint(1, 10) for _ in xrange(100)]
-f2 = [random.randint(1, 10) for _ in xrange(100)]
+# f1 = [random.randint(1, 10) for _ in xrange(100)]
+# f2 = [random.randint(1, 10) for _ in xrange(100)]
 
 train_size = 0.43
 bins_for_histogram = 100
@@ -57,35 +57,41 @@ def apply_model(model, f):
     alpha, beta = model
     return [alpha * x**beta for x in f]
 
-def get_quality(f1, f2):
-    def get_mean_for_interval(f, start, end):
-        summ = 0
-        num = 0
-        for y in f:
-            if start <= y and y < end:
-                summ += y
-                num += 1
-        if num != 0:
-            return summ*1.0/num
-        return 0
+# def get_quality(f1, f2):
+#     def get_mean_for_interval(f, start, end):
+#         summ = 0
+#         num = 0
+#         for y in f:
+#             if start <= y and y < end:
+#                 summ += y
+#                 num += 1
+#         if num != 0:
+#             return summ*1.0/num
+#         return 0
 
-    P1 = build_probability_dict(f1).values()    
-    P2 = build_probability_dict(f2).values()
-    start = 0.0
-    n1 = []
-    n2 = []
-    for x in xrange(1, bins_for_histogram+1, 1):
-        end = x*1.0/bins_for_histogram
+#     P1 = build_probability_dict(f1).values()    
+#     P2 = build_probability_dict(f2).values()
+#     start = 0.0
+#     n1 = []
+#     n2 = []
+#     for x in xrange(1, bins_for_histogram+1, 1):
+#         end = x*1.0/bins_for_histogram
         
-        n1.append(get_mean_for_interval(P1, start, end))
-        n2.append(get_mean_for_interval(P2, start, end))
+#         n1.append(get_mean_for_interval(P1, start, end))
+#         n2.append(get_mean_for_interval(P2, start, end))
 
-        start=end
+#         start=end
 
-    return max(abs(np.array(n1) - np.array(n2)))
+#     return max(abs(np.array(n1) - np.array(n2)))
 
 def case(f1, f2):
     #print f1, f2
+
+    l = max(len(f1), len(f2))
+
+    f2 = f2[:l]
+    f1 = f1[:l]
+
     divider = max(f1+f2)
 
     f1 = [x*1.0/divider for x in f1]
@@ -98,9 +104,9 @@ def case(f1, f2):
     #print model
     alpha, beta = model
 
-    test1_applied = apply_model(model, test1)
+    #test1_applied = apply_model(model, test1)
 
-    return alpha, beta, get_quality(test2, test1_applied)
+    return alpha, beta#, get_quality(test2, test1_applied)
 
 import pandas
 oil = pandas.read_csv('oil.big', sep=' ')
@@ -110,21 +116,34 @@ oil = [float(x) for x in list(oil['cost'])]
 rub = [float(x) for x in list(rub['Nominal']) if x != '—']
 
 #print oil
-# random.shuffle(oil)
-# random.shuffle(rub)
+random.shuffle(oil)
+random.shuffle(rub)
 
-x =[]
-a=[]
-b=[]
-q=[]
+# l = 700
+
+# oil = oil[:l]
+# rub = rub[:l]
+
+# f = zip (oil, rub)
+# x = []
+# for a,b in f:
+#     x.append(a*b)
+# plt.plot(x)
+# plt.show()
+
+x = []
+a = []
+b = []
+q = []
+alpha, beta = 1,1
 for s in xrange(1,100,1):
     train_size = s*1.0/100;
-    x.append(train_size)
-    alpha, beta, quality = case(oil, rub)
+    x.append(train_size*len(rub))
+    alpha, beta = case(rub, oil)
     a.append(alpha)
     b.append(beta)
-    q.append(quality)
-
+    
+print alpha, beta
 plt.plot(x,a)
 plt.plot(x,b)
 # plt.plot(x,q)
