@@ -33,21 +33,28 @@ def kmeans(X, k):
 
     return (centers, clusters)
 
-def draw(centers, clusters):
-    colors = "bgrcmykw"
+def draw(centers, clusters, draw_clusters=False, kind = 'o', colors = "bgrcmykw"):
     color_index = 0
 
-    for index, cluster in clusters.iteritems():
-        x, y = [], []
-        for a, b in cluster:
-            x.append(a)
-            y.append(b)
+    def inc_color_index(color_index):
+        if color_index == len(colors)-1:
+            return 0
+        return color_index + 1    
 
-        plt.plot(x,y, 'o'+colors[color_index])
-        center = centers[index]
-        plt.scatter([center[0]], [center[1]], s=500, color=colors[color_index])
-        color_index += 1
-    plt.show()
+    for index, cluster in clusters.iteritems():
+        if draw_clusters:
+            x, y = [], []
+            for a, b in cluster:
+                x.append(a)
+                y.append(b)
+            plt.plot(x,y, kind+colors[color_index])
+
+        if centers:            
+            center = centers[index]
+            plt.scatter([center[0]], [center[1]], s=500, color=colors[color_index])
+
+        color_index = inc_color_index(color_index)
+    #plt.show()
 
 
 def init_board_gauss(N, k):
@@ -68,6 +75,29 @@ def init_board_gauss(N, k):
 
 #X = np.array([(random.uniform(-1, 1), random.uniform(-1, 1)) for i in range(500)])
 
-X = init_board_gauss(1000, 3)
-centers, clusters = kmeans(X, 3)
-draw(centers, clusters)
+# X = init_board_gauss(1000, 3)
+# centers, clusters = kmeans(X, 3)
+# draw(centers, clusters)
+
+import pandas
+metro = pandas.read_csv('data_praga_metro_1.csv', sep=',')
+
+stations = ['A0', 'A1', 'B0', 'B1', 'C0', 'C1']
+
+#oil = [float(x) for x in list(oil['cost'])]
+stations_dict = {}
+total = []
+for station in stations:
+    a = [float(x) for x in list(metro['th'+station])]
+    b = [float(x) for x in list(metro['r'+station])]
+    stations_dict[station] = [np.array(x) for x in zip(a,b)]
+    total.extend(stations_dict[station])
+
+#print stations_dict
+
+centers, clusters = kmeans(total, 6)
+
+draw(centers, clusters, draw_clusters=True, kind='-', colors='c')
+draw(None, stations_dict, draw_clusters=True, kind='o',  colors = "bgrmykw")
+
+plt.show()

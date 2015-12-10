@@ -116,35 +116,35 @@ oil = [float(x) for x in list(oil['cost'])]
 rub = [float(x) for x in list(rub['Nominal']) if x != '—']
 
 #print oil
-random.shuffle(oil)
-random.shuffle(rub)
+# random.shuffle(oil)
+# random.shuffle(rub)
 
 # l = 700
 
 # oil = oil[:l]
 # rub = rub[:l]
 
-# f = zip (oil, rub)
-# x = []
-# for a,b in f:
-#     x.append(a*b)
-# plt.plot(x)
-# plt.show()
-
+f = zip (oil, rub)
 x = []
-a = []
-b = []
-q = []
-alpha, beta = 1,1
-for s in xrange(1,100,1):
-    train_size = s*1.0/100;
-    x.append(train_size*len(rub))
-    alpha, beta = case(rub, oil)
-    a.append(alpha)
-    b.append(beta)
-    
-print alpha, beta
-plt.plot(x,a)
-plt.plot(x,b)
-# plt.plot(x,q)
+for a,b in f:
+    x.append(a*b)
+plt.plot(x)
 plt.show()
+
+# x = []
+# a = []
+# b = []
+# q = []
+# alpha, beta = 1,1
+# for s in xrange(1,100,1):
+#     train_size = s*1.0/100;
+#     x.append(train_size*len(rub))
+#     alpha, beta = case(rub, oil)
+#     a.append(alpha)
+#     b.append(beta)
+    
+# print alpha, beta
+# plt.plot(x,a)
+# plt.plot(x,b)
+# # plt.plot(x,q)
+# plt.show()
