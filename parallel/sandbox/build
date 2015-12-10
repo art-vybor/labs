@@ -1,0 +1,2 @@
+mpicc hello_world.c
+mpirun -np 2 ./a.out
