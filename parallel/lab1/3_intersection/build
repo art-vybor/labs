@@ -1,0 +1,2 @@
+mpicc main.c  -std=c99
+mpirun -n 2 ./a.out
