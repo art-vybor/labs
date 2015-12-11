@@ -1,88 +1,96 @@
 #include <mpi/mpi.h>
 #include <stdio.h>
+#include <malloc.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 #include <unistd.h>
+
+// Разбить все процессы 
+// приложения на три произвольных группы и   напечатать  
+// ранги в MPI_COMM_WORLD тех  процессов, что попали в первые две 
+// группы, но не попали в третью. 
+
+int* get_random_ranks_array(int subgroup_size) {
+    int size; MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    int *subgroup_ranks = malloc(subgroup_size);
+
+    int ranks[100];
+    for (int i = 0; i < size; i++) ranks[i] = i;
+
+    for (int i = 0; i < subgroup_size; i++) {
+        int random_key = rand() % size;
+        subgroup_ranks[i] = ranks[random_key];
+
+        ranks[random_key] = ranks[size-1];
+        size--;
+    }
+
+    return subgroup_ranks;
+}
+
+int print_group(int* group, int size, char* text) {
+    int rank; MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    char s[1000]; 
+    char *ptr = s;
+    ptr[0] = 0;
+    for (int i = 0; i < size; i++) {
+        int n = sprintf(ptr, "%d ", group[i]);
+        ptr += n;
+    }
+
+    printf("%d.%s: [%s]\n", rank, text, s);
+}
 
 int main(int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
-    
-    //split processes
-    int size; MPI_Comm_size(MPI_COMM_WORLD, &size);
-    int group_size = size / 2;
-    int subgroup_ranks[100];
-    int subgroup_ranks1[100];
 
-    for (int i = 0, j = 0, k=0; i < group_size * 2; i++) {
-        if (i % 2) {   
-            subgroup_ranks[j++] = i;
-        } else {
-            subgroup_ranks1[k++] = i;            
-        }
-    }
-    
-    //create two groups
-    MPI_Group group; MPI_Comm_group(MPI_COMM_WORLD, &group);
-    MPI_Group group1 = MPI_GROUP_NULL; MPI_Group_incl(group, group_size, subgroup_ranks, &group1);
-    MPI_Group group2 = MPI_GROUP_NULL; MPI_Group_incl(group, group_size, subgroup_ranks1, &group2);
+    //set seed
+    int rank; MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    srand(clock()*(rank+1));
 
-    //detect current group
-    int rank; MPI_Group_rank(group1, &rank);
+    if (rank == 0) {
+        //generate 3 groups
+        int size; MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    char process_in_group = 1;
-    if (rank == MPI_UNDEFINED) { //not in group1
-        MPI_Group_rank(group2, &rank); 
+        int subgroup1_size = rand() % size;
+        int *subgroup1_ranks = get_random_ranks_array(subgroup1_size);
 
-        process_in_group = 2;
-        if (rank == MPI_UNDEFINED) { //not in group 2
-            process_in_group = 0;
-        }
-    }
+        int subgroup2_size = rand() % size;
+        int *subgroup2_ranks = get_random_ranks_array(subgroup2_size);
 
-    if (!process_in_group) {
-        MPI_Finalize();
-        return 0;
-    }
+        int subgroup3_size = rand() % size;
+        int *subgroup3_ranks= get_random_ranks_array(subgroup3_size);
 
-    //find your place in the world    
-    int rank1_global = 0; MPI_Group_translate_ranks(group1, 1, &rank, group, &rank1_global);
-    int rank2_global = 0; MPI_Group_translate_ranks(group2, 1, &rank, group, &rank2_global);
-    
+        MPI_Group group; MPI_Comm_group(MPI_COMM_WORLD, &group);
+        MPI_Group subgroup1 = MPI_GROUP_NULL; MPI_Group_incl(group, subgroup1_size, subgroup1_ranks, &subgroup1);
+        MPI_Group subgroup2 = MPI_GROUP_NULL; MPI_Group_incl(group, subgroup2_size, subgroup2_ranks, &subgroup2);
+        MPI_Group subgroup3 = MPI_GROUP_NULL; MPI_Group_incl(group, subgroup3_size, subgroup3_ranks, &subgroup3);
 
-    MPI_Status status;
-    
-    
-    char response[100];
 
-    if (process_in_group == 1) {
-        char* request = "ping";        
+        //intersect
+        MPI_Group intersected, result;
+        MPI_Group_intersection(subgroup1, subgroup2, &intersected);
+        MPI_Group_difference(intersected, subgroup3, &result);
+
+        int result_size; MPI_Group_size(result, &result_size);
+        int result_ranks[100];
+
+        for (int i = 0; i < result_size; i++) result_ranks[i] = i;
             
-        printf("1.%d sending %s to 2.%d\n", rank1_global, request, rank2_global);
 
-        MPI_Send((void*)request, strlen(request)+1, MPI_CHAR, rank2_global, 0, MPI_COMM_WORLD);
+        int rank_result[100]; MPI_Group_translate_ranks(result, result_size, &result_ranks, group, rank_result);
+    
+        print_group(subgroup1_ranks, subgroup1_size, "1");
+        print_group(subgroup2_ranks, subgroup2_size, "2");
+        print_group(subgroup3_ranks, subgroup3_size, "3");
 
-        MPI_Recv((void*)response, 100, MPI_CHAR, rank2_global, 0, MPI_COMM_WORLD, &status);
-        // MPI_Sendrecv((void*)request, strlen(request)+1, MPI_CHAR, rank2_global, 0,
-        //     (void*)response, strlen(response)+1, MPI_CHAR, rank2_global, 0,
-        //     MPI_COMM_WORLD, &status);
-
-        printf("1.%d received %s from 2.%d\n", rank1_global, response, rank2_global);
-    } else if (process_in_group == 2){
-        char* request = "pong";
-
-        //printf("sending %s: group 2, rank %d -> group 1, rank %d\n", request, rank2_global, rank1_global);
-
-        MPI_Recv((void*)response, 100, MPI_CHAR, rank1_global, 0, MPI_COMM_WORLD, &status);
-
-        printf("2.%d received %s from 1.%d\n", rank2_global, response, rank1_global);
-
-        MPI_Send((void*)request, strlen(request)+1, MPI_CHAR, rank1_global, 0, MPI_COMM_WORLD);
-        printf("2.%d sending %s to 1.%d\n", rank2_global, request, rank1_global);        
-        // MPI_Sendrecv((void*)request, strlen(request)+1, MPI_CHAR, rank1_global, 0,
-        //     (void*)response, strlen(response)+1, MPI_CHAR, rank1_global, 0,
-        //     MPI_COMM_WORLD, &status);
-
-        
+        print_group(rank_result, result_size, "result");   
     }
+
+
 
     MPI_Finalize();
 

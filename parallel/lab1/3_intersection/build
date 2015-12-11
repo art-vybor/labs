@@ -1,2 +1,2 @@
 mpicc main.c  -std=c99
-mpirun -n 2 ./a.out
+mpirun -n 5 ./a.out
