@@ -1,0 +1,4 @@
+mpicc main.c  -std=c99 -o main
+mpicc main1.c  -std=c99 -o main1
+mpirun -n 16 ./main -O0
+mpirun -n 16 ./main1 -O0
