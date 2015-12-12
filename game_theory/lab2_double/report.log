@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.17)  12 DEC 2015 16:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.17)  12 DEC 2015 17:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -950,29 +950,35 @@ File: uni-33.def 2013/05/13 UCS: Unicode data U+2100..U+21FF
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 
-] [3] [4] (./report.aux) ) 
+] [3] [4
+
+] [5] [6] (./report.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 28395 strings out of 494507
- 629562 string characters out of 6173545
+ 28400 strings out of 494507
+ 629622 string characters out of 6173545
  845780 words of memory out of 5000000
- 31041 multiletter control sequences out of 15000+600000
+ 31046 multiletter control sequences out of 15000+600000
  13786 words of font info for 46 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
  55i,14n,76p,3217b,613s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2
-a/labx1728.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm144
-0.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk> 
-</home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1200.600pk></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb>
-Output written on report.pdf (4 pages, 113794 bytes).
+ </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home
+/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </home/avyborno
+v/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk> </home/avybornov/.texmf-
+var/fonts/pk/ljfour/lh/lh-t2a/labx1200.600pk></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb>
+Output written on report.pdf (6 pages, 116736 bytes).
 PDF statistics:
- 226 PDF objects out of 1000 (max. 8388607)
- 47 compressed objects within 1 object stream
+ 232 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
