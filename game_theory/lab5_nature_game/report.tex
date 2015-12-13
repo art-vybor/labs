@@ -1,0 +1,193 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\tiny,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №5 \\
+по курсу <<Теория игр и исследование операций>>
+
+\bigskip
+
+{\large <<Игры с природой. Критерии принятия решений>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А.И.\hfill \medskip\\
+Руководитель:\\
+Басараб М.А.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+% Отчет должен содержать: титульный лист; цель работы; постановку задачи; нахожде-
+% ние оптимальной стратегии в соответствии с критериями Вальда, максимума, Гурвица
+% и Сэвиджа; выбор рекомендуемой стратегии по принципу простого большинства «по-
+% бед».
+
+\section{Цель работы}
+    Умение применять различные критерии (Бернулли, Вальда, максимума, Гурвица,
+Сэвиджа) для выбора стратегии в условиях полной неопределенности.
+
+\section{Постановка задачи}
+    Матрица стратегий имеет вид:
+
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Стратегии & $b_1$ & $b_2$ & $b_3$ & $b_4$ \\ \hline
+            $a_1$     & 4     & 1     & 17    & 18    \\ \hline 
+            $a_2$     & 4     & 14    & 6     & 16    \\ \hline 
+            $a_3$     & 0     & 14    & 14    & 13    \\ \hline 
+            $a_4$     & 6     & 13    & 4     & 15    \\ \hline 
+            $a_5$     & 12    & 11    & 3     & 16    \\ \hline 
+        \end{tabular}
+    \end{center}
+
+    Необходимо найти стратегии игрока при реализации гипотез недостаточного основания (Бернулли), пессимизма (Вальда), оптимизма, смешанной (Гурвица) при $\alpha=0.5$, рисков (Сэвиджа) и рекомендовать выбор стратегии согласно принципу большинства.
+
+\section{Решение}
+    Если воспользоваться критерием Бернулли, то следует руководствоваться стратегией $a_5$. Соответствующее математическое ожидание выигрыша при этом максимально и равно 10.5.
+
+    Пессимистическая стратегия (критерий Вальда) определяет выбор $a_2$ или $a_4$ (нижняя цена игры равна 4).
+
+    Оптимистическая стратегия соответствует выбору $a_1$ (максимально возможный выигрыш 18).
+
+    Критерий Гурвица определим из условия равновероятной реализации пессимистической и оптимистической гипотез ($\alpha = 0.5$). Наилучшая стратегия: $a_4$ (ожидаемый выигрыш равен 10).
+
+    Cоставим теперь для рассматриваемой игры таблицу рисков:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Стратегии & $b_1$ & $b_2$ & $b_3$ & $b_4$ \\ \hline
+            $a_1$     & 8     & 13     & 0    & 0     \\ \hline 
+            $a_2$     & 8     & 0      & 11   & 2     \\ \hline 
+            $a_3$     & 12    & 0      & 3    & 5     \\ \hline 
+            $a_4$     & 6     & 1      & 13   & 3     \\ \hline 
+            $a_5$     & 0     & 3      & 14   & 2     \\ \hline 
+        \end{tabular}
+    \end{center}
+
+    Максимальный риск минимален для стратегии $a_2$.
+
+    Окончательно, согласно принципу большинства, следует рекомендовать выбор стратегии $a_2$ и $a_4$ --- лучшие по двум из пяти рассмотренных критериев. Следующие по значимости стратегии: $a_1$ и $a_5$ (лучшие по двум из пяти критериев).
+\end{document}
