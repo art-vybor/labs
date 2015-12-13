@@ -1,0 +1,283 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\tiny,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №4 \\
+по курсу <<Теория игр и исследование операций>>
+
+\bigskip
+
+{\large <<Матричные игры с нулевой суммой. Смешанные стратегии>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А.И.\hfill \medskip\\
+Руководитель:\\
+Басараб М.А.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+% Отчет должен содержать: титульный лист; цель работы; постановку задачи; решение
+% матричной игры в смешанных стратегиях симплекс-методом за обоих игроков (прямая
+% и двойственная задачи ЛП).
+
+\section{Цель работы}
+    Постановка антагонистической игры двух лиц в нормальной форме. Найти решение игры в смешанных стратегиях (стратегическую седловую точку) за обоих игроков.
+
+\section{Постановка задачи}
+    Матрица стратегий имеет вид:
+
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            Стратегии & $b_1$ & $b_2$ & $b_3$ & $b_4$ \\ \hline
+            $a_1$     & 4     & 1     & 17    & 18    \\ \hline
+            $a_2$     & 4     & 14    & 6     & 16    \\ \hline
+            $a_3$     & 0     & 14    & 14    & 13    \\ \hline
+            $a_4$     & 6     & 13    & 4     & 15    \\ \hline
+            $a_4$     & 12    & 11    & 3     & 16    \\ \hline
+        \end{tabular}
+    \end{center}
+
+    Необходимо решить матричную игру в смешанных стратегиях за обоих игроков.
+
+\section{Решение}
+    Найдем смешанные стратегии для игрока А. Для этого составим систему уравнений:
+    \begin{gather}
+        \begin{cases}
+            4x_1 + 4x_2 + 6x_4 + 12x_5 \geq g, \\
+            x_1 + 14x_2 + 14x_3 + 13x_4 + 11x_5 \geq g, \\
+            17x_1 + 6x_2 + 14x_3 + 4x_4 + 3x_5 \geq g, \\
+            18x_1 + 16x_2 + 13x_3 + 15x_4 + 16x_5 \geq g, \\
+            x_1+x_2+x_3+x_4+x_5=1.
+        \end{cases} \notag
+    \end{gather} 
+    где g --- минимальный выигрыш.
+
+    Разделим систему на функцию g:
+    \begin{gather}
+        \begin{cases}
+            4u_1 + 4u_2 + 6u_4 + 12u_5 \geq 1, \\
+            u_1 + 14u_2 + 14u_3 + 13u_4 + 11u_5 \geq 1, \\
+            17u_1 + 6u_2 + 14u_3 + 4u_4 + 3u_5 \geq 1, \\
+            18u_1 + 16u_2 + 13u_3 + 15u_4 + 16u_5 \geq 1, \\
+            u_1+u_2+u_3=1/g.
+        \end{cases} \notag
+    \end{gather} 
+
+    Сформулируем задачу для решения симплекс-методом:
+
+    \begin{gather}
+        W = u_1+u_2+u_3+u_4+u_5 \rightarrow min, \notag \\
+        \begin{cases}
+            4u_1 + 4u_2 + 6u_4 + 12u_5 \geq 1, \\
+            u_1 + 14u_2 + 14u_3 + 13u_4 + 11u_5 \geq 1, \\
+            17u_1 + 6u_2 + 14u_3 + 4u_4 + 3u_5 \geq 1, \\
+            18u_1 + 16u_2 + 13u_3 + 15u_4 + 16u_5 \geq 1, \\
+        \end{cases} \notag \\
+        u_i \geq 0, i=1,2,3,4,5.\notag
+    \end{gather}
+
+    % Решаем: ...
+
+    Находим оптимальное решение:
+    \begin{gather}
+        u_1 = \frac{1}{28}, u_2 = 0, u_3 = \frac{5}{392}, u_4 = 0, u_5 = \frac{1}{14}, \notag \\
+        W = \frac{47}{392}, \notag \\
+        g = \frac{1}{W} = \frac{392}{47}. \notag
+    \end{gather}
+
+    Оптимальные стратегии:
+    \begin{gather}
+        x_1 = u_1g = \frac{1}{28} * \frac{392}{47} = \frac{14}{47}, \notag \\
+        x_2 = u_2g = 0, \notag \\
+        x_3 = u_3g =\frac{5}{392} * \frac{392}{47} = \frac{5}{47}, \notag \\
+        x_4 = u_4g = 0, \notag \\
+        x_5 = u_5g = \frac{1}{14} * \frac{392}{47} =\frac{28}{47}, \notag
+    \end{gather}
+
+    Таким образом, оптимальная смешанная стратегия игрока A равна:
+    \begin{gather}
+        (\frac{14}{47}, 0, \frac{5}{47}, 0, \frac{28}{47}) \notag
+    \end{gather}
+
+    
+    Для нахождения смешанной стратегии игрока B составим систему:
+    \begin{gather}
+        \begin{cases}
+            4v_1 + v_2 + 17v_3 + 18v_4 \leq h, \notag \\
+            4v_1 + 14v_2 + 6v_3 + 16v_4 \leq h, \notag \\
+            14v_2 + 14v_3 + 13v_4 \leq h, \notag \\
+            6v_1 + 13v_2 + 4v_3 + 15v_4  \leq h, \notag \\
+            12v_1 + 11v_2 + 3v_3 + 16v_4  \leq h, \notag \\
+            v_1+v_2+v_3+v_4=1. \notag
+        \end{cases} \notag
+    \end{gather} 
+    где h – максимальный проигрыш игрока B.
+
+    Разделим систему на h:
+    \begin{gather}
+        \begin{cases}
+            4v_1 + v_2 + 17v_3 + 18v_4 \leq 1, \notag \\
+            4v_1 + 14v_2 + 6v_3 + 16v_4 \leq 1, \notag \\
+            14v_2 + 14v_3 + 13v_4 \leq 1, \notag \\
+            6v_1 + 13v_2 + 4v_3 + 15v_4  \leq 1, \notag \\
+            12v_1 + 11v_2 + 3v_3 + 16v_4  \leq 1, \notag \\
+            v_1+v_2+v_3+v_4=1/h.
+        \end{cases} \notag
+    \end{gather}
+
+    Сформулируем задачу для решения симплекс-методом:
+    \begin{gather}
+        v_1+v_2+v_3+v_4 \rightarrow max. \notag \\
+        \begin{cases}
+            4v_1 + v_2 + 17v_3 + 18v_4 \leq 1, \notag \\
+            4v_1 + 14v_2 + 6v_3 + 16v_4 \leq 1, \notag \\
+            14v_2 + 14v_3 + 13v_4 \leq 1, \notag \\
+            6v_1 + 13v_2 + 4v_3 + 15v_4  \leq 1, \notag \\
+            12v_1 + 11v_2 + 3v_3 + 16v_4  \leq 1, \notag \\
+        \end{cases} \notag \\
+        v_i \geq 0, i=1,2,3,4.\notag
+    \end{gather} 
+
+    Решение имеет вид:
+    \begin{gather}
+        v_1 = \frac{5}{196}, v_2 = \frac{6}{196}, v_3 = \frac{19}{392}, v_4= 0 \notag \\
+        Z = \frac{47}{392}, \notag \\
+        H = \frac{1}{W} = \frac{392}{47}. \notag
+    \end{gather}
+
+        Частоты выбора стратегий:
+    \begin{gather}
+        y_1 = v_1h = \frac{5}{196} * \frac{392}{47} = \frac{10}{47}, \notag \\
+        y_2 = v_2h = \frac{6}{196} * \frac{392}{47} = \frac{12}{47}, \notag \\
+        y_3 = v_3h = \frac{19}{392} * \frac{392}{47} = \frac{19}{47}, \notag \\
+        y_4 = v_4h = 0, \notag 
+    \end{gather}
+
+    Таким образом, оптимальная смешанная стратегия игрока В равна: 
+    $$(\frac{10}{47}, \frac{12}{47}, \frac{19}{47}, 0)$$
+
+\end{document}
