@@ -190,7 +190,7 @@
     Согласно указанным правилам формулируем ДЗ ЛП:
 
     \begin{gather}
-        \Phi = 6y_1 + 6y_2 + 6y_3 \rightarrow min,  \notag  \\
+        \Phi = 6y_1 + 6y_2 + 2y_3 \rightarrow min,  \notag  \\
         \begin{cases}
             2y_1 + y_2 \geq 2, \\
             y_1 + 2y_2 + 0.5y_3 \geq 5, \\
@@ -201,7 +201,7 @@
 
     Каноническая форма ДЗ имеет вид:
     \begin{gather}
-        \Phi = 6y_1 + 6y_2 + 6y_3 \rightarrow min,  \notag  \\
+        \Phi = 6y_1 + 6y_2 + 2y_3 \rightarrow min,  \notag  \\
         \begin{cases}
             2y_1 + y_2 - y_4 = 2, \\
             y_1 + 2y_2 + 0.5y_3 - y_5 = 5, \\
@@ -209,6 +209,43 @@
         \end{cases} \notag \\
         y_1, y_2, y_3 \geq 0. \notag
     \end{gather} 
+
+    Исходная симплекс-таблица записывается в виде:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+                 & $s_{i0}$ & $y_1$ & $y_2$ & $y_3$ \\ \hline
+            $y_4$ & -2      & -2    & -1    & 0 \\ \hline
+            $y_5$ & -5      & -1    & -2    & -0.5 \\ \hline
+            $y_6$ & -3      & -2    & 0     & -1 \\ \hline
+            $F$   & 0       & 6     & 6     & 2 \\ \hline
+        \end{tabular}
+    \end{center}
+
+    Симплекс таблица, задающая опорное решение:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+                 & $s_{i0}$ & $y_1$ & $y_4$ & $y_6$ \\ \hline
+            $y_2$ & 2       & 2     & -1    & 0 \\ \hline
+            $y_3$ & 3       & 2     & 0     & -1 \\ \hline
+            $y_5$ & 0.5     & 4     & -2    & -0.5 \\ \hline
+            $F$   & -18     & -10   & 6     & 2 \\ \hline
+        \end{tabular}
+    \end{center}
+    
+    
+    Таблица, определяющая оптимальный план решения задачи:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+                 & $s_{i0}$ & $y_4$ & $y_5$ & $y_6$ \\ \hline
+            $y_2$ & 1.75    & 0     & -0.5  & 0.25 \\ \hline
+            $y_3$ & 2.75    & 1     & -0.5  & -0.75 \\ \hline
+            $y_1$ & 0.13    & -0.5  & 0.25  & -0.13 \\ \hline
+            $F$   & -16.75  & 1     & 2.5   & 0.75 \\ \hline
+        \end{tabular}
+    \end{center}
 
     Решение ДЗ:
 
@@ -311,8 +348,8 @@
     \begin{center}
         \begin{tabular}{|c|c|c|c|c|}
             \hline
-                 & $s_{i0}$ & $x_1$   & $x_5$   & $x_6$ \\ \hline
-            $x_4$ & 1       & 0.5     & 0       & 0.5     \\ \hline
+                 & $s_{i0}$ & $x_4$   & $x_5$   & $x_6$ \\ \hline
+            $x_1$ & 1       & 0.5     & 0       & 0.5     \\ \hline
             $x_2$ & 2.5     & -0.25   & 0.5     & 0     \\ \hline
             $x_3$ & 0.75    & 0.125   & -0.25   & 0.75  \\ \hline
             $F$   & 16.75   & 0.125   & 1.75    & 2.75  \\ \hline
