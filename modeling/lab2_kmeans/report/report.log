@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.17)  14 DEC 2015 22:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.9.17)  15 DEC 2015 02:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -956,56 +956,62 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 147.
- [2
+
+Overfull \hbox (46.20235pt too wide) in paragraph at lines 157--173
+ [][] 
+ []
+
+[2
 
 
-] [3]
-<figure_1.png, id=29, 1734.48pt x 922.8879pt>
+] [3] <figure_1.png, id=29, 1734.48pt x 922.8879pt>
 File: figure_1.png Graphic file (type png)
  <use figure_1.png>
-Package pdftex.def Info: figure_1.png used on input line 243.
+Package pdftex.def Info: figure_1.png used on input line 244.
 (pdftex.def)             Requested size: 520.34802pt x 276.8685pt.
 
-Overfull \hbox (65.10391pt too wide) in paragraph at lines 243--244
+Overfull \hbox (65.10391pt too wide) in paragraph at lines 244--245
  [] 
  []
 
-LaTeX Font Info:    Try loading font information for T2A+cmss on input line 244
+LaTeX Font Info:    Try loading font information for T2A+cmss on input line 245
 .
 (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmss.fd
 File: t2acmss.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
-) [4 <./figure_1.png>] <figure_2.png, id=35, 1734.48pt x 922.8879pt>
+) [4]
+<figure_2.png, id=35, 1734.48pt x 922.8879pt>
 File: figure_2.png Graphic file (type png)
  <use figure_2.png>
-Package pdftex.def Info: figure_2.png used on input line 263.
+Package pdftex.def Info: figure_2.png used on input line 264.
 (pdftex.def)             Requested size: 520.34802pt x 276.8685pt.
 
-Overfull \hbox (65.10391pt too wide) in paragraph at lines 263--264
+Overfull \hbox (65.10391pt too wide) in paragraph at lines 264--265
  [] 
  []
 
-[5 <./figure_2.png>] (./report.aux) ) 
+[5 <./figure_1.png>] [6 <./figure_2.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 28729 strings out of 494507
- 633021 string characters out of 6173545
- 905780 words of memory out of 5000000
- 31351 multiletter control sequences out of 15000+600000
- 17747 words of font info for 53 fonts, out of 8000000 for 9000
+ 28751 strings out of 494507
+ 633354 string characters out of 6173545
+ 906779 words of memory out of 5000000
+ 31367 multiletter control sequences out of 15000+600000
+ 20103 words of font info for 60 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 55i,7n,76p,3217b,1063s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/avybornov/.texmf-var/fonts/pk/ljfo
-ur/lh/lh-t2a/labx1440.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-
-t2a/larm0600.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/lati1
-200.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk
-> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk> </home/
-avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1200.600pk></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
-Output written on report.pdf (5 pages, 260863 bytes).
+ 55i,9n,76p,3217b,1063s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/avybornov/.te
+xmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1440.600pk> </home/avybornov/.texmf-var/f
+onts/pk/ljfour/lh/lh-t2a/larm0600.600pk> </home/avybornov/.texmf-var/fonts/pk/l
+jfour/lh/lh-t2a/lati1200.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/
+lh-t2a/larm1095.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/la
+bx1728.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.60
+0pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1200.600pk></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb>
+Output written on report.pdf (6 pages, 269716 bytes).
 PDF statistics:
- 299 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 327 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

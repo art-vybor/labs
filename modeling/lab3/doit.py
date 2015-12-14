@@ -39,12 +39,10 @@ def norm(f1,f2):
     return f1, f2
 
 def get_rank_table(X):
-    #X = sorted(X)
-    rank_X = {}
     start, end = min(X), max(X)
     step = (end - start)/9
-    for x in X:
-        rank_X[x] = int((x - start)/step + 1)
+
+    rank_X = {x: int((x - start)/step + 1) for x in X}
     return [rank_X[x] for x in X]
 
 def rank_spirmen(X,Y):
