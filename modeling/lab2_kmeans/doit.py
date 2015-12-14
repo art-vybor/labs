@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -97,7 +99,24 @@ for station in stations:
 
 centers, clusters = kmeans(total, 6)
 
+def find_station(point, stations_dict):
+    x,y = point
+    for station, data in stations_dict.iteritems():
+        for point in data:
+            x1, y1 = point
+            if x==x1 and y==y1:
+                return station
+
+
+for index, cluster in clusters.iteritems():
+    print 'cluster %d:' % index, 
+    for point in cluster:
+        print find_station(point, stations_dict),
+    print ''
+
 draw(centers, clusters, draw_clusters=True, kind='-', colors='c')
 draw(None, stations_dict, draw_clusters=True, kind='o',  colors = "bgrmykw")
 
+plt.xlabel(u'Среднее число пассажиров, вошедших с данной станции в метрополитена в день.')
+plt.ylabel(u'Среднее число пассажиров, вышедших с данной станции в день.')
 plt.show()
