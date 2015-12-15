@@ -1,0 +1,225 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\small,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №3 \\
+по курсу <<Математическое моделирование>>
+
+\bigskip
+
+%{\large <<Работа с системой моделирования GPSS>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А. И.\hfill \medskip\\
+Руководитель:\\
+Домрачева А. Б.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+
+
+\section{Постановка задачи}
+    Рассматриваются 6 станций чешского метрополитена. Для каждой станции, вручную была посчитана следующая информация с точностью до месяца:
+    \begin{itemize}
+        \item Среднее число пассажиров, вошедших с данной станции в метрополитена в день.
+        \item Среднее число пассажиров, вышедших с данной станции в день.
+    \end{itemize}
+
+    Данные для 6 станций (A0, A1, B0, B1, C0, C1) приведены в таблице~\ref{tabular:data}. Строки соответствуют месяцам, столбцы станциям метро, причём префикс "th" \space соответствует вошедшим пассажирам, а префикс "r" \space вышедшим.
+    \begin{table}[ht!]
+        \caption{Данные о числе пассажиров проходящих через станции Пражского метро}
+        \centering
+        \label{tabular:data}
+        \small
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        m/s & thA0 & rA0 & thA1 & rA1 & thB0 & rB0 & thB1 & rB1 & thC0 & rC0 & thC1 & rC1 \\ \hline
+        1 & 16551 & 14899 & 30746 & 27320 & 32822 & 29553 & 21002 & 18793 & 17084 & 15365 & 4544 & 3118 \\ \hline
+        2 & 16810 & 14292 & 22558 & 20155 & 25314 & 22567 & 40022 & 35436 & 29096 & 25876 & 17519 & 16162 \\ \hline
+        3 & 14434 & 13046 & 28001 & 24916 & 36918 & 32720 & 35118 & 31145 & 38639 & 34226 & 38841 & 34819 \\ \hline
+        4 & 20891 & 18696 & 32958 & 29255 & 46677 & 41259 & 20283 & 18164 & 23690 & 21145 & 37324 & 33492 \\ \hline
+        5 & 13773 & 12468 & 28277 & 25159 & 16909 & 15212 & 41746 & 36944 & 29087 & 25868 & 16717 & 15461 \\ \hline
+        6 & 14739 & 13313 & 36763 & 32398 & 21889 & 19569 & 40458 & 35817 & 21993 & 20494 & 40099 & 35920 \\ \hline
+        7 & 24713 & 22040 & 34650 & 30735 & 34998 & 31040 & 19478 & 17460 & 30082 & 26738 & 42244 & 37797 \\ \hline
+        8 & 10127 & 9278 & 33590 & 29808 & 23285 & 20791 & 22974 & 21353 & 18776 & 17263 & 22099 & 20170 \\ \hline
+        9 & 14689 & 13269 & 12239 & 11126 & 21561 & 19282 & 25348 & 23430 & 34808 & 31290 & 40895 & 36617 \\ \hline
+        10 & 13047 & 11833 & 35848 & 31784 & 37778 & 33472 & 25336 & 22586 & 26192 & 23751 & 17519 & 16162 \\ \hline
+        11 & 16487 & 14843 & 38451 & 34061 & 29376 & 26120 & 23743 & 22025 & 18230 & 16784 & 38841 & 34819 \\ \hline
+        12 & 14345 & 12968 & 18573 & 16668 & 32822 & 29553 & 29751 & 27282 & 37085 & 33283 & 37324 & 33492 \\ \hline
+        \end{tabular}
+    \end{table}
+
+    Необходимо найти корреляцию между числом вошедших и вышедших со станции.
+
+\section{Решение}
+    Для каждой станции метро обрабатывались данные за последние 12 месяцев. Для этих данных были найдены следующие величины:
+    \begin{itemize}
+        \item Коэффициент корреляции Пирсона,
+        \item Ранговый коэффициент корреляции Пирсона,
+        \item Ранговый коэффициент Спирмана.
+    \end{itemize}
+
+    Вычисления производились с помощью скрипта на языке python. Фрагмент скрипта, вычисляющий корреляцию:
+    \begin{lstlisting}
+def get_rank_table(X):
+    start, end = min(X), max(X)
+    step = (end - start)/9
+
+    rank_X = {x: int((x - start)/step + 1) for x in X}
+    return [rank_X[x] for x in X]
+
+def rank_spirmen(X,Y):
+    rank_X = get_rank_table(X)
+    rank_Y = get_rank_table(Y)
+
+    sum_d = [(x-y)**2 for x,y in zip(rank_X, rank_Y)]
+    return 1 - 6.0*sum(sum_d)/(len(X)**3 - len(X))
+
+def linear_pirson(X,Y):
+    return cov(X,Y)*1.0/(math.sqrt(D(X))*math.sqrt(D(Y)))
+
+def rank_pirson(X,Y):
+    rank_X = get_rank_table(X)
+    rank_Y = get_rank_table(Y)
+    return sum([(x-y)**2*1.0/y for x,y in zip(rank_X, rank_Y)])
+    \end{lstlisting}
+    
+    Результаты вычисления коэффициентов корреляции занесены в таблицу~\ref{tabular:syntax}.
+    \begin{table}[ht!]
+        \caption{Значения различных коэффицентов корреляции для каждой из станций метро.}
+        \centering
+        \label{tabular:syntax}
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+            \hline
+                                                    & A0    & A1    & B0    & B1    & C0    & C 1 \\ \hline
+            Коэффициент корреляции Пирсона          & 0.997 & 0.999 & 0.999 & 0.998 & 0.999 & 0.999 \\ \hline
+            Ранговый коэффициент корреляции Пирсона & 0.25  & 0.0   & 0.0   & 0.333 & 0.2   & 0.25 \\ \hline
+            Ранговый коэффициент Спирмана           & 0.996 & 1.0   & 1.0   & 0.996 & 0.996 & 0.996 \\ \hline
+        \end{tabular}
+    \end{table}
+
+    Как видно из таблицы, все коэффициенты показали высокую степень корреляции между данными. То что коэффициент корреляции Пирсона и ранговый коэффициент Спирмана показали значения близкие к единице, показывает наличие линейной зависимости между величинами.
+\end{document}
