@@ -1,0 +1,2 @@
+case 1. data length: 10000, threads: 4, time: 193.491ms
+case 2. data length: 10000, groups: 100, threads: 4, time: 455.796ms

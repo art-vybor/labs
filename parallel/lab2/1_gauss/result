@@ -1,0 +1,10 @@
+matrix: 1024x1025, threads: 1, time: 1525.3ms
+matrix: 1024x1025, threads: 2, time: 899.083ms
+matrix: 1024x1025, threads: 3, time: 564.579ms
+matrix: 1024x1025, threads: 4, time: 484.48ms
+matrix: 1024x1025, threads: 5, time: 608.235ms
+matrix: 1024x1025, threads: 6, time: 526.791ms
+matrix: 1024x1025, threads: 7, time: 540.895ms
+matrix: 1024x1025, threads: 8, time: 760.286ms
+matrix: 1024x1025, threads: 9, time: 619.266ms
+matrix: 1024x1025, threads: 10, time: 620.156ms
