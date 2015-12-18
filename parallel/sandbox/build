@@ -1,2 +1,5 @@
-mpicc hello_world.c
-mpirun -np 2 ./a.out
+#mpicc mpi.c -o mpi
+#mpirun -np 2 ./mpi
+gcc openmp.c -o mpi
+./mpi
+
