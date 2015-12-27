@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.17)  11 DEC 2015 14:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.17)  22 DEC 2015 14:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -941,7 +941,7 @@ File: uni-33.def 2013/05/13 UCS: Unicode data U+2100..U+21FF
 
 
 ]
-<../model.png, id=28, 586.8324pt x 442.2924pt>
+<../model.png, id=29, 586.8324pt x 442.2924pt>
 File: ../model.png Graphic file (type png)
  <use ../model.png>
 Package pdftex.def Info: ../model.png used on input line 176.
@@ -952,7 +952,7 @@ LaTeX Font Info:    Try loading font information for T2A+cmss on input line 177
 (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmss.fd
 File: t2acmss.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-<../kolmogorov.png, id=30, 586.8324pt x 442.2924pt>
+<../kolmogorov.png, id=31, 586.8324pt x 442.2924pt>
 File: ../kolmogorov.png Graphic file (type png)
  <use ../kolmogorov.png>
 Package pdftex.def Info: ../kolmogorov.png used on input line 189.
@@ -963,11 +963,11 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3 <../model.png>] [4 <../kolmogorov.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 25423 strings out of 493307
- 525835 string characters out of 6139904
+ 25426 strings out of 493307
+ 525875 string characters out of 6139904
  728093 words of memory out of 5000000
- 28294 multiletter control sequences out of 15000+600000
- 13780 words of font info for 46 fonts, out of 8000000 for 9000
+ 28295 multiletter control sequences out of 15000+600000
+ 14586 words of font info for 47 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  56i,7n,74p,3217b,613s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fo
@@ -981,11 +981,11 @@ usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/tex
 mf/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/publi
 c/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.
-pfb>
-Output written on report.pdf (4 pages, 188157 bytes).
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1440.pfb>
+Output written on report.pdf (4 pages, 197126 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 79 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
