@@ -1,0 +1,255 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\tiny,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №2 \\
+по курсу <<Методы оптимизации>>
+
+\bigskip
+
+{\large <<Численные методы поиска безусловного экстремума>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А. И.\hfill \medskip\\
+Руководитель:\\
+Каганов Ю. Т.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+
+\section{Задача 1}
+    \subsection{Постановка задачи}
+        Найти экстремум функции $f(x) = x_1^3 + x_2^2 + x_3^2 - 3*x_1 + x_2*x_3 + 6*x_2 + 2$. 
+
+    \subsection{Решение}
+        Необходимые условия экстремума первого порядка:
+        $$\nabla f(x) = 0,$$ где $f(x) = x_1^3 + x_2^2 + x_3^2 - 3*x_1 + x_2*x_3 + 6*x_2 + 2$. Получаем систему уравнений:
+        \begin{equation}
+            \begin{cases}
+               3x_1^2-3 = 0, \\
+               2x_2 + x_3 + 6 = 0, \\
+               2x_3 + x2 = 0.
+            \end{cases}
+        \end{equation}
+
+        В результате решения вышеприведённой системы, находим две стационарные точки: $x^l_1 = (1, -4, 2)$ и $x^l_2 = (-1, -4, 2)$.
+
+        Запищем матрицу Гессе для исходной функции:
+        $$
+        H=\begin{bmatrix}
+            6x_1 & 0 &0 \\
+            0 & 2 & 1 \\
+            0 & 1 & 2
+        \end{bmatrix}.
+        $$
+
+        Проверяем выполнение достаточного условия для точки $x^l_1$:
+        \begin{equation}
+            \begin{cases}
+               \Delta_1 = 6 > 0, \\
+               \Delta_2 = 12 > 0, \\
+               \Delta_3 = 18 > 0.
+            \end{cases}
+        \end{equation}
+        Получили, что матрица Гессе $H(x^l_1)$ положительно определена и точка $x^l_1$ является точкой локального минимума.
+        
+        Проверяем выполнение достаточного условия для точки $x^l_2$:
+        \begin{equation}
+            \begin{cases}
+               \Delta_1 = -6 < 0, \\
+               \Delta_2 = -12 < 0, \\
+               \Delta_3 = -18 < 0.
+            \end{cases}
+        \end{equation}
+        Получили, что для точки $x^l_2$ достаточное условие не выполняется.
+
+        Проверяем выполнение необходимого условия второго порядка для точки $x^l_2$. Критерий проверки необходимых условий экстремума второго порядка не выполняется. Следовательно $x^l_2$ - не точка экстремума.
+
+        Нашли точку экстремума $x^l_1 = (1, -4, 2)$, которая является точкой локального минимума и $f(x^l_1) = -12$.
+
+\section{Задача 2}
+    \subsection{Постановка задачи}
+        Найти экстремум функции $f(x)$ (подобрать $\alpha$):
+        \begin{equation*}
+            \begin{cases}
+               f(x) = (x_1^3 - \alpha)^2 + x_2^2 \rightarrow extr, \\
+               g_1(x) = x_1^2+x_2^2 - 1 \le 0, \\
+               g_2(x) = -x_1 \le 0.
+            \end{cases}
+        \end{equation*}
+
+    \subsection{Решение}
+        Составим обобщённую функцию Лагранжа, которая имеет вид:
+        $$L(x,\lambda_0, \lambda) = \lambda_0f(x)+\sum_{j=1}^2\lambda_jg_j(x).$$
+
+        Получим необходимые условия экстремума первого порядка. Условие стационарности обощённой функции:
+        $$\frac{\delta L(x,\lambda_0, \lambda)}{\delta x_i}=0, i=1,2.$$
+        $$\frac{\delta L}{\delta x_1} + \frac{\delta L}{\delta x_2} = 6\lambda_0(x_1^3 - \alpha)x_1^2 + 2\lambda_1x_1 - \lambda_2 +2\lambda_0x_2 + 2\lambda_1x_2 = 0.$$
+        Условие допустимости решения:
+        \begin{equation*}
+            \begin{cases}
+               g_1(x) = x_1^2+x_2^2 - 1 \le 0, \\
+               g_2(x) = -x_1 \le 0.
+            \end{cases}
+        \end{equation*}
+        Условия неотрицательности и неположительности не рассматриваются в виду условия задачи. Условие дополняющей нежёсткости:
+        \begin{equation*}
+            \begin{cases}
+                \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
+                \lambda_2(-x_1) = 0.
+            \end{cases}
+        \end{equation*}
+        Получили систему уравнений:
+        \begin{equation*}
+            \begin{cases}
+                6\lambda_0(x_1^3 - \alpha)x_1^2 + 2\lambda_1x_1 - \lambda_2 +2\lambda_0x_2 + 2\lambda_1x_2 = 0, \\
+                x_1^2+x_2^2 - 1 \le 0, \\
+                -x_1 \le 0, \\
+                \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
+                \lambda_2(-x_1) = 0.
+            \end{cases}
+        \end{equation*}
+
+        Рассмотрим два случая:
+        \begin{enumerate}
+            \item $\lambda_0 = 0$,
+            \item $\lambda_0 \neq 0$, при этом $\frac{\lambda_j}{\lambda_0} = \lambda_j'$.
+        \end{enumerate}
+
+        \subsubsection{Случай 1}
+        \begin{equation*}
+            \begin{cases}
+                2\lambda_1x_1 - \lambda_2 + 2\lambda_1x_2 = 0, \\
+                x_1^2+x_2^2 - 1 \le 0, \\
+                -x_1 \le 0, \\
+                \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
+                \lambda_2(-x_1) = 0.
+            \end{cases}
+        \end{equation*}
+
+
+
+\end{document}
