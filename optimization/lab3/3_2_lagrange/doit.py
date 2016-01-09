@@ -32,3 +32,4 @@ while True:
         break
 
 print 'result: %s' % list(x)
+print 'f(result) = %s' % f(x)
