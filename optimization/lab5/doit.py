@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 from math import sin, sqrt
 from random import random, uniform, randint
 from copy import deepcopy
 
-Np = 100 # размер популяции
-F = 1 #100 # весовой коэффициент
-CR = random() # параметр операции скрещивания
-M = 1000 #2000 # максимальное количество популяций
+Np = 100 #population size
+F = 1 #100 # weight
+CR = random() # prop of sequence
+M = 1000 #2000 # max num of population
 
 
 #a, b, c = 0.5, 0.5, 0.5
