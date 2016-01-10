@@ -7,7 +7,8 @@ gamma = 2
 n = 2
 eps = 1e-9
 
-f = lambda (x1, x2): 2*x1*x1 + x1*x2 + x2*x2 - 9*x1 - 5*x2
+f = lambda (x1, x2): 2*x1*x1 + x1*x2 + x2*x2 - 6*x1 - 5*x2
+
 
 def get_xc(x):
     return [sum(x[i][j] for i in range(n)) *1.0 / n for j in range(n)]
