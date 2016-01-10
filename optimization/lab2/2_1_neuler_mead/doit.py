@@ -1,14 +1,10 @@
 from math import sqrt
 
-alpha = 1
-beta = 0.5
-gamma = 2
-
+alpha, beta, gamma = 1, 0.5, 2
 n = 2
 eps = 1e-9
 
 f = lambda (x1, x2): 2*x1*x1 + x1*x2 + x2*x2 - 6*x1 - 5*x2
-
 
 def get_xc(x):
     return [sum(x[i][j] for i in range(n)) *1.0 / n for j in range(n)]
@@ -68,10 +64,9 @@ def nelder_mead(x):
 
     return nelder_mead(x)
 
-
 # stage 1: select n+1 points
 points = [[1,0], [0,1], [1,1]]
 
-print nelder_mead(points)
-
-print 13.0/7, 11.0/7
+x = nelder_mead(points)
+print x
+print 'f =', f(x)

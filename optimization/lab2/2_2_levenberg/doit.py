@@ -3,16 +3,15 @@ import numpy as np
 from copy import deepcopy
 
 n = 2
+M = 10000
 eps = 1e-9
 gamma = 10e4
 alpha = 1
-M = 10000
 
 f = lambda (x1, x2): 2*x1*x1 + x1*x2 + x2*x2 - 6*x1 - 5*x2
 grad = lambda (x1, x2): [4*x1 + x2 - 6, x1 + 2*x2 - 5]
 H = [[4,1],
      [1,2]]
-
 
 def H_plus_ykE(gamma):
     return [[4+gamma,1],
@@ -20,8 +19,6 @@ def H_plus_ykE(gamma):
 
 def mul(H, x):
     return [sum([ H[i][j] * x[j] for j in range(n)]) for i in range(n)]
-
-
 
 xk = [0, 0]
 k = 0
