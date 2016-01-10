@@ -30,16 +30,10 @@ def get_weight():
     z = zip(tuple(c), [tuple(vi) for vi in v])
 
     return min(z)[1]
-    
 
 x = (100,100)
-print 'x0: %s' % list(x)
-
 ideal = ideal_point(x)
-print 'ideal: %s' % list(ideal)
-
 weight = get_weight()
-print 'weight: %s' % list(weight)
 
 while True:    
     x = tuple(optimize.minimize(lambda x: F(x, r), x).x)

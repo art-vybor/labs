@@ -1,0 +1,165 @@
+
+% utf-8 ru, unix eolns
+\documentclass[12pt,a4paper,oneside]{extarticle}
+    \righthyphenmin=2 %минимально переносится 2 символа %%%
+    \sloppy
+
+% Рукопись оформлена в соответствии с правилами оформления 
+% электронной версии авторского оригинала, 
+% принятыми в Издательстве МГТУ им. Н.Э. Баумана.
+
+\usepackage{geometry} % А4, примерно 28-31 строк(а) на странице 
+    \geometry{paper=a4paper}
+    \geometry{includehead=false} % Нет верх. колонтитула
+    \geometry{includefoot=true}  % Есть номер страницы
+    \geometry{bindingoffset=0mm} % Переплет    : 0  мм
+    \geometry{top=20mm}          % Поле верхнее: 20 мм
+    \geometry{bottom=25mm}       % Поле нижнее : 25 мм 
+    \geometry{left=25mm}         % Поле левое  : 25 мм
+    \geometry{right=25mm}        % Поле правое : 25 мм
+    \geometry{headsep=10mm}  % От края до верх. колонтитула: 10 мм
+    \geometry{footskip=20mm} % От края до нижн. колонтитула: 20 мм 
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc} 
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{misccorr}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+%\usepackage{cm-super} %человеческий рендер русских шрифтов
+
+\setlength{\parindent}{1.25cm}  % Абзацный отступ: 1,25 см
+\usepackage{indentfirst}        % 1-й абзац имеет отступ
+
+\usepackage{setspace}   
+
+\onehalfspacing % Полуторный интервал между строками
+
+\makeatletter
+\renewcommand{\@oddfoot }{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@evenfoot}{\hfil\thepage\hfil} % Номер стр.
+\renewcommand{\@oddhead }{} % Нет верх. колонтитула
+\renewcommand{\@evenhead}{} % Нет верх. колонтитула
+\makeatother
+
+\usepackage{fancyvrb}
+
+
+\usepackage[pdftex]{graphicx}  % поддержка картинок для пдф
+\graphicspath{ {./pictures/} }
+\usepackage{rotating}
+%\DeclareGraphicsExtensions{.jpg,.png}
+
+
+
+
+\renewcommand{\labelenumi}{\theenumi.} %меняет вид нумерованного списка
+
+\usepackage{perpage} %нумерация сносок 
+\MakePerPage{footnote}
+
+\usepackage[all]{xy} %поддержка графов
+
+\usepackage{listings} %листинги
+\renewcommand{\lstlistingname}{Листинг}
+\lstset{
+  basicstyle=\tiny,
+  breaklines=true
+  }
+
+
+\usepackage{url}
+
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+\usepackage{gensymb}
+
+\usepackage{ccaption}%изменяет подпись к рисунку
+\makeatletter 
+\renewcommand{\fnum@figure}[1]{Рисунок~\thefigure~---~\sffamily}
+\makeatother
+
+\begin{document}
+\pgfplotsset{compat=1.8}
+
+\thispagestyle{empty}
+\newpage
+{
+\centering
+
+
+\textbf{
+МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМЕНИ Н. Э. БАУМАНА \\
+Факультет информатики и систем управления \\
+Кафедра теоретической информатики и компьютерных технологий}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
+\vfill
+
+
+Лабораторная работа №4 \\
+по курсу <<Методы оптимизации>>
+
+\bigskip
+
+{\large <<Численное решение задач многокритериальной оптимизации>>}
+\bigskip
+
+\vfill
+
+
+
+\hfill\parbox{4cm} {
+Выполнил:\\
+студент ИУ9-111 \hfill \\
+Выборнов А. И.\hfill \medskip\\
+Руководитель:\\
+Каганов Ю. Т.\hfill
+}
+
+
+\vspace{\fill}
+
+Москва \number\year
+\clearpage
+}
+
+
+
+\clearpage
+
+\section{Методы свертки критериев (метод «идеальной точки»)}
+    \subsection{Постановка задачи}
+        Найти минимум:
+        \begin{equation*}
+            \begin{cases}
+                f_1(x) = 2x_1^2 + x_1x_2 + x_2^2 - 6x_1 - 5x_2 \rightarrow \min, \\
+                f_1(x) = 3(x_1 - 2)^2 + 2(x_2 - 5)^2 \rightarrow \min, \\
+                g_1(x) = x_1 + x_2 \le 6, \\
+                g_2(x) = 3x_2 - 2x_1 \le 10.
+            \end{cases}
+        \end{equation*}
+        
+
+    \subsection{Решение на языке программирования python}
+        \lstinputlisting{../doit.py}
+
+    \subsection{Результат работы}
+        При значениях $\varepsilon=10^{-9}, r^0=0.01, C=4, x_0 = [100,100]$ 
+    нашли точку $[1.4067797288803341, 3.9322034626828555]$, которая является точкой решения задачи многокритериальной оптимизации.
+    $$f_1([1.4067797288803341, 3.9322034626828555]) = -3.14966908245,$$
+    $$f_2([1.4067797288803341, 3.9322034626828555]) = 3.33610976041.$$
+
+\end{document}
