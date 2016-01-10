@@ -2,7 +2,7 @@
 
 from scipy import optimize
 
-r = 1e-5
+r = 1e-2
 eps = 1e-9
 C = 4
 
@@ -14,11 +14,9 @@ g = lambda g_j, x: max(g_j(x), 0)
 
 P = lambda x, r: r*1.0/2 * (g(g1, x)**2 + g(g2, x)**2)
 
-F = lambda x, r: f(x) + P(x, r)
-
-def F(x, rk):
+def F(x, r):
     x = tuple(x)
-    return f(x) + P(x, rk)
+    return f(x) + P(x, r)
 
 x = (0,0)
 print 'x0: %s' % list(x)

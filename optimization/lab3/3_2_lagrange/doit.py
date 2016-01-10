@@ -1,6 +1,6 @@
 from scipy import optimize
 
-r = 1e-5
+r = 0.1
 eps = 1e-9
 C = 4
 mu = (0, 0)
