@@ -239,17 +239,62 @@
             \item $\lambda_0 \neq 0$, при этом $\frac{\lambda_j}{\lambda_0} = \lambda_j'$.
         \end{enumerate}
 
-        \subsubsection{Случай 1}
-        \begin{equation*}
-            \begin{cases}
-                2\lambda_1x_1 - \lambda_2 + 2\lambda_1x_2 = 0, \\
-                x_1^2+x_2^2 - 1 \le 0, \\
-                -x_1 \le 0, \\
-                \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
-                \lambda_2(-x_1) = 0.
-            \end{cases}
-        \end{equation*}
+        \subsubsection{Случай 1 ($\lambda_0 = 0$)}
+            \begin{equation*}
+                \begin{cases}
+                    2\lambda_1x_1 - \lambda_2 + 2\lambda_1x_2 = 0, \\
+                    x_1^2+x_2^2 - 1 \le 0, \\
+                    -x_1 \le 0, \\
+                    \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
+                    \lambda_2(-x_1) = 0.
+                \end{cases}
+            \end{equation*}
 
+            Пусть $\lambda_1 \neq 0, \lambda_2 \neq 0$, тогда получаем два решения $x^l = (0, \pm 1)$. Пусть $\lambda_1 = 0$, тогда $\lambda_2 = 0$ и получаем систему решений:
+            \begin{equation*}
+                \begin{cases}
+                    (x^l_1)^2+(x^l_2)^2 - 1 \le 0, \\
+                    x^l_1 \in [0, 1], \\
+                    x^l_2 \in [-1,1].
+                \end{cases}
+            \end{equation*}
+    \subsection{Проверка достаточных условий экстремума}
+        Проверим достаточные условия экстремума для точек, полученных на предыдущем этапе ($\lambda_0=0, \lambda_1 \neq 0, \lambda_2 \neq 0$). Для этого необходимо $d^2L(x^l, \lambda^l) > (<) 0$.
 
+        Получаем $d^2L(x^l, \lambda^l) = 4\lambda_1 \neq 0$. То есть, точки $x^l = (0, \pm 1)$ является точками локальных экстремумов.
+
+    \subsection{Вычисление значений функции в точках экстремума}
+        $$f([0,1]) = \alpha^2 + 1$$
+        $$f([0,-1]) = \alpha^2 + 1$$
+
+        % \subsubsection{Случай 2 ($\lambda_0 \neq 0$)}
+        %     Для простоты положим $\lambda_0 = 1$ (можно использовать подобное упрощение, так как если $\lambda_0$ отличен от 1, то мы можем поделить всё уравнение на $\lambda_0$).
+        %     \begin{equation*}
+        %         \begin{cases}
+        %             6(x_1^3 - \alpha)x_1^2 + 2\lambda_1x_1 - \lambda_2 +2x_2 + 2\lambda_1x_2 = 0, \\
+        %             x_1^2+x_2^2 - 1 \le 0, \\
+        %             -x_1 \le 0, \\
+        %             \lambda_1(x_1^2+x_2^2 - 1) = 0, \\
+        %             \lambda_2(-x_1) = 0.
+        %         \end{cases}
+        %     \end{equation*}
+
+        %     Пусть $\lambda_1 \neq 0, \lambda_2 \neq 0$, тогда получаем два решения $x^l = (0, \pm 1)$. Пусть $\lambda_1 = 0, \lambda_2 \neq 0$, тогда получаем систему решений: 
+        %     \begin{equation*}
+        %         \begin{cases}
+        %             x^l_1 = 0, \\
+        %             x^l_2 \in [-1,1].
+        %         \end{cases}
+        %     \end{equation*}
+
+        %     Пусть $\lambda_1 \neq 0, \lambda_2 = 0$, тогда получаем систему решений:
+        %     \begin{equation*}
+        %         \begin{cases}
+        %             6(x_1^3 - \alpha)x_1^2 + 2\lambda_1x_1 +2x_2 + 2\lambda_1x_2 = 0,\\
+        %             (x^l_1)^2+(x^l_2)^2 = 1, \\
+        %             x^l_1 \in [0,1], \\
+        %             x^l_2 \in [-1,1].
+        %         \end{cases}
+        %     \end{equation*}
 
 \end{document}
