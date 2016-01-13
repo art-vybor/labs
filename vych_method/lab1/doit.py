@@ -3,15 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 l = 1
-k = 3
+k = 5
 step = 1e-2
 
 integral = lambda f: sum(f(x)*step for x in np.arange(0,l,step))
 
-u = lambda x: x*x*math.log(x+1)
-f = lambda x: 2*math.log(x+1) + 4*x*1.0/(x+1) - x**2*1.0/(x+1)**2
+u = lambda x: x*x*math.log(x+l)
+f = lambda x: 2*math.log(x+l) + 4*x*1.0/(x+l) - x**2*1.0/(x+l)**2
 
-phi_0 = lambda x: l*math.log(l+1)*1.0*x
+phi_0 = lambda x: l*math.log(2*l)*1.0*x
 phi_i = lambda i: lambda x: math.sin(math.pi * i * x * 1.0/ l)
 phi = [phi_0] + [phi_i(i) for i in range(1,k+1)]
 

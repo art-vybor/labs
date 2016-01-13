@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.10)  11 JAN 2016 00:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.10)  14 JAN 2016 02:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -955,46 +955,85 @@ File: uni-4.def 2013/05/13 UCS: Unicode data U+0400..U+04FF
 File: uni-33.def 2013/05/13 UCS: Unicode data U+2100..U+21FF
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-0.def
-File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
-) (../doit.py
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+
+
+] [3] [4] (../doit.py
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
-) [2
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 9.
+)
+LaTeX Font Info:    Try loading font information for T2A+cmss on input line 278
+.
 
+(/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmss.fd
+File: t2acmss.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
+)
+<k1.png, id=35, 586.8324pt x 442.2924pt>
+File: k1.png Graphic file (type png)
+ <use k1.png>
+Package pdftex.def Info: k1.png used on input line 285.
+(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
 
-] [3] (./report.aux) ) 
+Overfull \hbox (14.22244pt too wide) in paragraph at lines 285--286
+ [][] 
+ []
+
+<k3.png, id=37, 586.8324pt x 442.2924pt>
+File: k3.png Graphic file (type png)
+ <use k3.png>
+Package pdftex.def Info: k3.png used on input line 292.
+(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
+
+Overfull \hbox (14.22244pt too wide) in paragraph at lines 292--293
+ [][] 
+ []
+
+<k5.png, id=38, 586.8324pt x 442.2924pt>
+File: k5.png Graphic file (type png)
+ <use k5.png>
+Package pdftex.def Info: k5.png used on input line 299.
+(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
+
+Overfull \hbox (14.22244pt too wide) in paragraph at lines 299--300
+ [][] 
+ []
+
+[5
+
+] [6] [7 <./k1.png>] [8 <./k3.png>] [9 <./k5.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 29405 strings out of 494487
- 644732 string characters out of 6173390
- 996469 words of memory out of 5000000
- 32043 multiletter control sequences out of 15000+600000
- 16053 words of font info for 51 fonts, out of 8000000 for 9000
+ 29428 strings out of 494487
+ 654777 string characters out of 6173390
+ 973470 words of memory out of 5000000
+ 32062 multiletter control sequences out of 15000+600000
+ 16059 words of font info for 51 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 55i,7n,77p,3217b,1238s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/la
-rm0600.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1440.60
-0pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </ho
-me/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </home/avybor
-nov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk> </home/avybornov/.texm
-f-var/fonts/pk/ljfour/lh/lh-t2a/labx1200.600pk></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
-y6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-
-Output written on report.pdf (3 pages, 134668 bytes).
+ 56i,16n,103p,3217b,1933s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/avyb
+ornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm0600.600pk> </home/avybornov/.te
+xmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home/avybornov/.texmf-var/f
+onts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </home/avybornov/.texmf-var/fonts/pk/l
+jfour/lh/lh-t2a/larm1200.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/
+lh-t2a/labx1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb>
+Output written on report.pdf (9 pages, 237895 bytes).
 PDF statistics:
- 305 PDF objects out of 1000 (max. 8388607)
- 56 compressed objects within 1 object stream
+ 363 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
