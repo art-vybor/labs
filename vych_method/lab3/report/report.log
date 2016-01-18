@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.10)  18 JAN 2016 10:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.1.10)  18 JAN 2016 10:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -955,85 +955,67 @@ File: uni-4.def 2013/05/13 UCS: Unicode data U+0400..U+04FF
 File: uni-33.def 2013/05/13 UCS: Unicode data U+2100..U+21FF
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
-
-
-] [3] [4] (../doit.py
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 10.
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+(/usr/share/texlive/texmf-dist/tex/latex/ucs/data/uni-0.def
+File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 10.
-) [5
+<p1.png, id=17, 463.7325pt x 406.51875pt>
+File: p1.png Graphic file (type png)
+ <use p1.png>
+Package pdftex.def Info: p1.png used on input line 151.
+(pdftex.def)             Requested size: 231.86568pt x 203.25887pt.
+ [2
 
-]
-LaTeX Font Info:    Try loading font information for T2A+cmss on input line 277
+
+ <./p1.png>]
+<figure_1.png, id=27, 586.8324pt x 442.2924pt>
+File: figure_1.png Graphic file (type png)
+ <use figure_1.png>
+Package pdftex.def Info: figure_1.png used on input line 175.
+(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
+
+Overfull \hbox (14.22244pt too wide) in paragraph at lines 175--176
+ [][] 
+ []
+
+LaTeX Font Info:    Try loading font information for T2A+cmss on input line 176
 .
-
 (/usr/share/texlive/texmf-dist/tex/latex/cyrillic/t2acmss.fd
 File: t2acmss.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-<k1.png, id=40, 586.8324pt x 442.2924pt>
-File: k1.png Graphic file (type png)
- <use k1.png>
-Package pdftex.def Info: k1.png used on input line 284.
+<figure_2.png, id=29, 586.8324pt x 442.2924pt>
+File: figure_2.png Graphic file (type png)
+ <use figure_2.png>
+Package pdftex.def Info: figure_2.png used on input line 192.
 (pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
 
-Overfull \hbox (14.22244pt too wide) in paragraph at lines 284--285
+Overfull \hbox (14.22244pt too wide) in paragraph at lines 192--193
  [][] 
  []
 
-[6] <k3.png, id=47, 586.8324pt x 442.2924pt>
-File: k3.png Graphic file (type png)
- <use k3.png>
-Package pdftex.def Info: k3.png used on input line 291.
-(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
-
-Overfull \hbox (14.22244pt too wide) in paragraph at lines 291--292
- [][] 
- []
-
-<k8.png, id=48, 586.8324pt x 442.2924pt>
-File: k8.png Graphic file (type png)
- <use k8.png>
-Package pdftex.def Info: k8.png used on input line 298.
-(pdftex.def)             Requested size: 469.46655pt x 353.8344pt.
-
-Overfull \hbox (14.22244pt too wide) in paragraph at lines 298--299
- [][] 
- []
-
-[7 <./k1.png>] [8 <./k3.png>] [9 <./k8.png>] (./report.aux) ) 
+[3 <./figure_1.png>] [4 <./figure_2.png>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 29433 strings out of 494487
- 654934 string characters out of 6173390
- 1053471 words of memory out of 5000000
- 32067 multiletter control sequences out of 15000+600000
- 16059 words of font info for 51 fonts, out of 8000000 for 9000
+ 29156 strings out of 494487
+ 643313 string characters out of 6173390
+ 852471 words of memory out of 5000000
+ 31804 multiletter control sequences out of 15000+600000
+ 14610 words of font info for 47 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 56i,16n,103p,3217b,1933s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/avybornov/
-.texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm0600.600pk> </home/avybornov/.texmf-va
-r/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home/avybornov/.texmf-var/fonts/p
-k/ljfour/lh/lh-t2a/larm1440.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/
-lh/lh-t2a/larm1200.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/lh-t2a
-/labx1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy8.pfb>
-Output written on report.pdf (9 pages, 242984 bytes).
+ 55i,14n,77p,3217b,613s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/avybornov/.te
+xmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home/avybornov/.texmf-var/f
+onts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </home/avybornov/.texmf-var/fonts/pk/l
+jfour/lh/lh-t2a/larm1200.600pk> </home/avybornov/.texmf-var/fonts/pk/ljfour/lh/
+lh-t2a/labx1200.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on report.pdf (4 pages, 199088 bytes).
 PDF statistics:
- 373 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 217 PDF objects out of 1000 (max. 8388607)
+ 48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  48 words of extra memory for PDF output out of 10000 (max. 10000000)
 
