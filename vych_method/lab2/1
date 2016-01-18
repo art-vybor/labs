@@ -1,8 +1,0 @@
-doit.py:27: RuntimeWarning: invalid value encountered in double_scalars
-  (t[i+n]-x)*1.0 / (t[i+n]-t[i+1]) * B_in(i+1,n-1,x)
-doit.py:27: RuntimeWarning: divide by zero encountered in double_scalars
-  (t[i+n]-x)*1.0 / (t[i+n]-t[i+1]) * B_in(i+1,n-1,x)
-doit.py:26: RuntimeWarning: invalid value encountered in double_scalars
-  return (x-t[i])*1.0 / (t[i+n-1]-t[i]) * B_in(i,n-1,x) + \
-doit.py:26: RuntimeWarning: divide by zero encountered in double_scalars
-  return (x-t[i])*1.0 / (t[i+n-1]-t[i]) * B_in(i,n-1,x) + \
