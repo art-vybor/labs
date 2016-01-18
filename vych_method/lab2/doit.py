@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.misc import derivative
 
 l = 1
-k = 10
+k = 8
 step = 1e-2
 
 integral = lambda f: sum(f(x)*step for x in np.arange(0,l,step))
@@ -27,7 +27,7 @@ phi_0 = lambda x: l*math.log(2*l)*1.0*x
 phi_i = lambda i: lambda x: B_in(i,3,x)*(x-l)*x
 phi = [phi_0] + [phi_i(i) for i in range(1,k+1)]
 
-a_ij = lambda i,j: integral(lambda x: derivative(phi_i(i), x, 1e-7,n =2) * phi_i(j)(x))
+a_ij = lambda i,j: integral(lambda x: derivative(phi_i(i), x, 1e-6,n =2) * phi_i(j)(x))
 a = [[a_ij(i,j) for j in range(1, k+1)] for i in range(1,k+1)]
 b_f = lambda x, i: f(x) * phi_i(i)(x)
 b = lambda i: integral(lambda x: b_f(x, i))
